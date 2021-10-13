@@ -29,8 +29,8 @@ public:
     const auto bounds = Rectangle<int>(x, y, width, height).toFloat().reduced(10);
     const auto centre_x = bounds.getCentreX();
     const auto centre_y = bounds.getCentreY();
-    const auto radius = bounds.getHeight() / 2.0f;
-    const auto diameter = radius * 2;
+    const auto diameter = bounds.getHeight();
+    const auto radius = diameter / 2.0f;
     const auto toAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
     const auto line_width = width * 0.04f;
     const auto arc_radius = radius - line_width * 0.5f;
@@ -51,7 +51,7 @@ public:
     back_arc_path.addCentredArc(centre_x, centre_y, arc_radius, arc_radius, 0.0f, rotaryStartAngle, rotaryEndAngle, true);
 
     g.setColour(colour01);
-    g.strokePath(back_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::butt));
+    g.strokePath(back_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::rounded));
 
     if (slider.isEnabled())
     {
@@ -61,7 +61,7 @@ public:
       ColourGradient arc_gradient(ColourGradient::horizontal(main_colour.darker(), centre_x - radius, 
                                                              main_colour, centre_x + radius));
       g.setGradientFill(arc_gradient);
-      g.strokePath(value_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::butt));
+      g.strokePath(value_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::rounded));
 
       // draw ellipse guide
       Path guide_path;
@@ -89,14 +89,15 @@ public:
 
   void drawLabel(Graphics& g, Label& label) override
   {
+    label.setInterceptsMouseClicks(false, true);
     juce::Colour a = juce::Colour(0, 0, 0);
-    g.setColour(a.withAlpha(0.5f));
+    g.setColour(a.withAlpha(0.75f));
     g.fillRect(label.getLocalBounds());
 
     if (!label.isBeingEdited())
     {
       auto alpha = label.isEnabled() ? 1.0f : 0.5f;
-      const Font font(getLabelFont(label));
+      const Font font(label.getHeight() * 0.7f, Font::plain);
 
       g.setColour(label.findColour(Label::textColourId).withMultipliedAlpha(alpha));
       g.setFont(font);
@@ -148,13 +149,14 @@ public:
     setSkewFactorFromMidPoint(midPointValue);
     setLookAndFeel(&lf);
     setSliderStyle(SliderStyle::RotaryVerticalDrag);
-    setTextBoxStyle(TextBoxBelow, false, 0, 0);
 
     String text = apvts.getParameter(parameterID)->getName(16);
     title_label->setFont(Font(16, Font::plain));
     title_label->setText(text, dontSendNotification);
     title_label->setJustificationType(Justification::centred);
 
+    value_label = dynamic_cast<Label*>(getChildComponent(0));
+    value_label->onEditorHide = [this] { setShowValue(false); };
     setShowValue(false);
   }
 
@@ -166,23 +168,12 @@ public:
 
   void mouseDoubleClick(const MouseEvent& event) override
   {
-    if (modifier_flag == modifier_flag & ModifierKeys::Flags::ctrlModifier) {
+    if (ModifierKeys::getCurrentModifiers().isCtrlDown()) {
       Slider::mouseDoubleClick(event);
       return;
     }
     setShowValue(true);
     showTextBox();
-  }
-
-  void mouseDown(const MouseEvent& event) override
-  {
-    Slider::mouseDown(event);
-  }
-
-  void modifierKeysChanged(const ModifierKeys& modifiers) override
-  {
-    Slider::modifierKeysChanged(modifiers);
-    modifier_flag = modifiers.getRawFlags();
   }
 
   void mouseDrag(const MouseEvent& event) override
@@ -199,8 +190,8 @@ public:
 
   void setPosition(int x, int y, float size_ratio)
   {
-    setBounds(x, y, 100 * size_ratio, 100 * size_ratio);
-    title_label->setBounds(x, y + 90 * size_ratio, 100 * size_ratio, 20 * size_ratio);
+    setBounds(x, y, 90 * size_ratio, 90 * size_ratio);
+    title_label->setBounds(x, y + 75 * size_ratio, 90 * size_ratio, 20 * size_ratio);
     title_label->setFont(Font(16 * size_ratio, Font::plain));
   }
 
@@ -211,13 +202,7 @@ public:
 
   void setShowValue(bool value)
   { 
-    show_value = value;
-    if (value) {
-      setTextBoxStyle(TextBoxBelow, false, 0, 0);
-    }
-    else {
-      setTextBoxStyle(NoTextBox, false, 0, 0);
-    }
+    value_label->setAlpha(value);
   }
 
 private:
@@ -226,9 +211,7 @@ private:
   std::unique_ptr<KnobAttachment> knob_attachment;
   std::unique_ptr<Label> title_label_ptr = std::make_unique<Label>();
   Label* title_label = title_label_ptr.get();
-
-  int modifier_flag;
-  bool show_value = false;
+  Label* value_label;
 };
 
 } // namespace GUI

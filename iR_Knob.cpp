@@ -21,6 +21,7 @@ Knob::Knob(APVTS& apvts, String parameterID, double midPointValue) :
   title_label->setJustificationType(Justification::centred);
 
   value_label = dynamic_cast<Label*>(getChildComponent(0));
+  value_label->setInterceptsMouseClicks(false, true);
   value_label->onEditorHide = [this] { setShowValue(false); };
   setShowValue(false);
 }
@@ -55,8 +56,8 @@ void Knob::mouseUp(const MouseEvent& event)
 
 void Knob::setPosition(int x, int y, float size_ratio)
 {
-  setBounds(x, y, 90 * size_ratio, 90 * size_ratio);
-  title_label->setBounds(x, y + 75 * size_ratio, 90 * size_ratio, 20 * size_ratio);
+  setBounds(x * size_ratio, y * size_ratio, 90 * size_ratio, 90 * size_ratio);
+  title_label->setBounds(x * size_ratio, (y + 75) * size_ratio, 90 * size_ratio, 20 * size_ratio);
   title_label->setFont(Font(16 * size_ratio, Font::plain));
 }
 
@@ -159,7 +160,6 @@ void KnobLooksAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, in
 
 void KnobLooksAndFeel::drawLabel(Graphics& g, Label& label)
 {
-  label.setInterceptsMouseClicks(false, true);
   juce::Colour a = juce::Colour(0, 0, 0);
   g.setColour(a.withAlpha(0.75f));
   g.fillRect(label.getLocalBounds());
@@ -178,6 +178,14 @@ void KnobLooksAndFeel::drawLabel(Graphics& g, Label& label)
       jmax(1, (int)((float)textArea.getHeight() / font.getHeight())),
       label.getMinimumHorizontalScale());
   }
+}
+
+void KnobLooksAndFeel::fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor)
+{
+  const Font font(textEditor.getHeight() * 0.7f, Font::plain);
+  setColour(CaretComponent::caretColourId, Colour(255, 255, 255));
+  textEditor.applyFontToAllText(font);
+  textEditor.setJustification(Justification::centred);
 }
 
 Slider::SliderLayout KnobLooksAndFeel::getSliderLayout(Slider& slider)

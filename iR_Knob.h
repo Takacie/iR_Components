@@ -61,9 +61,9 @@ public:
 
   void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
     float rotaryStartAngle, float rotaryEndAngle, Slider& slider) override;
-
   void drawLabel(Graphics& g, Label& label) override;
-
+  void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
+  void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
   Slider::SliderLayout getSliderLayout(Slider& slider) override;
 
   void setMainColour(const Colour& colour) { main_colour = colour; }

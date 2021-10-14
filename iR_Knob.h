@@ -23,8 +23,10 @@ using KnobAttachment = AudioProcessorValueTreeState::SliderAttachment;
 class Knob : public Slider
 {
 public:
-  Knob(APVTS& apvts, String parameterID, double midPointValue = 0.5);
+  // constructor
+  Knob(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue = 0.5);
 
+  // common method
   void addAndMakeVisibleMyself(AudioProcessorEditor& editor);
   
   // override
@@ -43,7 +45,7 @@ public:
 
 private:
   APVTS* apvts;
-  juce::String parameter_id;
+  String parameter_id;
   std::unique_ptr<KnobAttachment> knob_attachment;
   std::unique_ptr<Label> title_label_ptr = std::make_unique<Label>();
   Label* title_label = title_label_ptr.get();
@@ -57,8 +59,10 @@ private:
 class KnobLooksAndFeel : public LookAndFeel_V4
 {
 public:
+  // constructor
   KnobLooksAndFeel(const juce::Colour& main_colour);
 
+  // override
   void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
     float rotaryStartAngle, float rotaryEndAngle, Slider& slider) override;
   void drawLabel(Graphics& g, Label& label) override;
@@ -66,18 +70,14 @@ public:
   void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
   Slider::SliderLayout getSliderLayout(Slider& slider) override;
 
+  Colour getMainColour() { return main_colour; }
+
+  // setter
   void setMainColour(const Colour& colour) { main_colour = colour; }
 
 private:
-  juce::Colour main_colour;
+  Colour main_colour;
 };
-
-//----------------------------------------------------------------------------------------------------------------------
-// knob global configures
-//----------------------------------------------------------------------------------------------------------------------
-static std::unique_ptr<KnobLooksAndFeel> knob_lf = std::make_unique<KnobLooksAndFeel>(Colour(132, 192, 106));
-
-static void setKnobColor(const Colour& colour) { knob_lf.get()->setMainColour(colour); }
 
 } // namespace GUI
 } // namespace iNVOXRecords

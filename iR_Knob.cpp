@@ -5,14 +5,14 @@ namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
 // Knob implementation
 //----------------------------------------------------------------------------------------------------------------------
-Knob::Knob(APVTS& apvts, String parameterID, double midPointValue) :
+Knob::Knob(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue) :
   apvts(&apvts),
   parameter_id(parameterID),
   knob_attachment(std::make_unique<KnobAttachment>(apvts, parameterID, *this))
 {
   setRange(0.0, 1.0);
   setSkewFactorFromMidPoint(midPointValue);
-  setLookAndFeel(knob_lf.get());
+  setLookAndFeel(look_and_feel);
   setSliderStyle(SliderStyle::RotaryVerticalDrag);
 
   String text = apvts.getParameter(parameterID)->getName(16);

@@ -5,12 +5,14 @@ namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Button implementation
 //----------------------------------------------------------------------------------------------------------------------
-iR_Button::iR_Button(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue) :
+std::unique_ptr<iR_ButtonLookAndFeel> iR_Button::lookandfeel = std::make_unique<iR_ButtonLookAndFeel>(Colour(132, 106, 192));
+
+iR_Button::iR_Button(APVTS& apvts, const String& parameterID) :
   apvts(&apvts),
   parameter_id(parameterID),
   button_attachment(std::make_unique<ButtonAttachment>(apvts, parameterID, *this))
 {
-  setLookAndFeel(look_and_feel);
+  setLookAndFeel(lookandfeel.get());
   String text = apvts.getParameter(parameterID)->getName(16);
   setButtonText(text);
 }

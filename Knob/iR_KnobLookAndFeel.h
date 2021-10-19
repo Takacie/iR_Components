@@ -8,13 +8,13 @@ using namespace juce;
 namespace iNVOXRecords {
 namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
-// iR_LooksAndFeel class
+// iR_KnobLookAndFeel class
 //----------------------------------------------------------------------------------------------------------------------
-class iR_LooksAndFeel : public LookAndFeel_V4
+class iR_KnobLookAndFeel : public LookAndFeel_V4
 {
 public:
   // constructor
-  iR_LooksAndFeel(const juce::Colour& main_colour);
+  iR_KnobLookAndFeel(const Colour& mainColour = Colour(132, 106, 192));
 
   // override
   void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
@@ -23,11 +23,9 @@ public:
   void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
   void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
   Slider::SliderLayout getSliderLayout(Slider& slider) override;
-  void drawToggleButton(Graphics& g, ToggleButton& button,
-                        bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
-  void drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h, 
-                   const bool ticked, const bool isEnabled, const bool shouldDrawButtonAsHighlighted,
-                   const bool shouldDrawButtonAsDown) override;
+
+  // setter
+  void setMainColour(const Colour& mainColour) { main_colour = mainColour; }
 
 private:
   Colour main_colour;

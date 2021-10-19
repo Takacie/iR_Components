@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iR_KnobLookAndFeel.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -26,7 +27,7 @@ class iR_Knob : public Slider
 {
 public:
   // constructor
-  iR_Knob(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue = 0.5);
+  iR_Knob(APVTS& apvts, const String& parameterID, double midPointValue = 0.5);
 
   // common method
   void addAndMakeVisibleMyself(AudioProcessorEditor& editor);
@@ -43,6 +44,10 @@ public:
   void setPosition(int x, int y, float size_ratio);
   void setShowValue(bool value) { value_label->setAlpha(value); }
   void setStartPosition(KnobStartPos value) { start_pos = value; }
+
+  // static
+  static std::unique_ptr<iR_KnobLookAndFeel> lookandfeel;
+  static void setKnobColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
 
 private:
   APVTS* apvts;

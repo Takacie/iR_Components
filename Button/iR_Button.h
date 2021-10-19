@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iR_ButtonLookAndFeel.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -16,7 +17,7 @@ class iR_Button : public ToggleButton
 {
 public:
   // constructor
-  iR_Button(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue = 0.5);
+  iR_Button(APVTS& apvts, const String& parameterID);
 
   // common method
   void addAndMakeVisibleMyself(AudioProcessorEditor& editor);
@@ -26,7 +27,12 @@ public:
   // setter
   void setPosition(int x, int y, int width, float size_ratio);
 
+  // static
+  static std::unique_ptr<iR_ButtonLookAndFeel> lookandfeel;
+  static void setButtonColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
+
 private:
+
   APVTS* apvts;
   String parameter_id;
   std::unique_ptr<ButtonAttachment> button_attachment;

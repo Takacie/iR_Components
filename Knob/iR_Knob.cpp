@@ -5,14 +5,16 @@ namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Knob implementation
 //----------------------------------------------------------------------------------------------------------------------
-iR_Knob::iR_Knob(APVTS& apvts, const String& parameterID, LookAndFeel* look_and_feel, double midPointValue) :
+std::unique_ptr<iR_KnobLookAndFeel> iR_Knob::lookandfeel = std::make_unique<iR_KnobLookAndFeel>(Colour(132, 106, 192));
+
+iR_Knob::iR_Knob(APVTS& apvts, const String& parameterID, double midPointValue) :
   apvts(&apvts),
   parameter_id(parameterID),
   knob_attachment(std::make_unique<KnobAttachment>(apvts, parameterID, *this))
 {
+  setLookAndFeel(lookandfeel.get());
   setRange(0.0, 1.0);
   setSkewFactorFromMidPoint(midPointValue);
-  setLookAndFeel(look_and_feel);
   setSliderStyle(SliderStyle::RotaryVerticalDrag);
 
   String text = apvts.getParameter(parameterID)->getName(16);

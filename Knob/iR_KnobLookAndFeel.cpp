@@ -1,16 +1,16 @@
-#include "iR_LooksAndFeel.h"
+#include "iR_KnobLookAndFeel.h"
 #include "iR_Knob.h"
 
 namespace iNVOXRecords {
 namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
-// iR_LooksAndFeel implementation
+// iR_KnobLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
-iR_LooksAndFeel::iR_LooksAndFeel(const juce::Colour& main_colour) :
-  main_colour(main_colour)
+iR_KnobLookAndFeel::iR_KnobLookAndFeel(const Colour& mainColour) :
+  main_colour(mainColour)
 {}
 
-void iR_LooksAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
+void iR_KnobLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
   float rotaryStartAngle, float rotaryEndAngle, Slider& slider)
 {
   // reset to custom angle
@@ -100,7 +100,7 @@ void iR_LooksAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
   }
 }
 
-void iR_LooksAndFeel::drawLabel(Graphics& g, Label& label)
+void iR_KnobLookAndFeel::drawLabel(Graphics& g, Label& label)
 {
   juce::Colour a = juce::Colour(0, 0, 0);
   g.setColour(a.withAlpha(0.75f));
@@ -122,7 +122,7 @@ void iR_LooksAndFeel::drawLabel(Graphics& g, Label& label)
   }
 }
 
-void iR_LooksAndFeel::fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor)
+void iR_KnobLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor)
 {
   const Font font(textEditor.getHeight() * 0.7f, Font::plain);
   setColour(CaretComponent::caretColourId, Colour(255, 255, 255));
@@ -130,7 +130,7 @@ void iR_LooksAndFeel::fillTextEditorBackground(Graphics& g, int width, int heigh
   textEditor.setJustification(Justification::centred);
 }
 
-Slider::SliderLayout iR_LooksAndFeel::getSliderLayout(Slider& slider)
+Slider::SliderLayout iR_KnobLookAndFeel::getSliderLayout(Slider& slider)
 {
   auto localBounds = slider.getLocalBounds();
 
@@ -150,54 +150,6 @@ Slider::SliderLayout iR_LooksAndFeel::getSliderLayout(Slider& slider)
   layout.sliderBounds = localBounds;
 
   return layout;
-}
-
-void iR_LooksAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
-  bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
-{
-  const auto size = button.getHeight();
-  const Font font(size, Font::plain);
-
-  g.drawRect(button.getBounds().reduced(2, 2), 5);
-
-  drawTickBox(g, button, size * 0.2f, 0,
-    size, size,
-    button.getToggleState(),
-    button.isEnabled(),
-    shouldDrawButtonAsHighlighted,
-    shouldDrawButtonAsDown);
-
-  g.setColour(button.findColour(ToggleButton::textColourId));
-  g.setFont(font);
-
-  if (!button.isEnabled())
-    g.setOpacity(0.5f);
-
-  g.drawFittedText(button.getButtonText(),
-    button.getLocalBounds().withTrimmedLeft(roundToInt(size * 1.3f))
-    .withTrimmedRight(2),
-    Justification::centredLeft, 10);
-}
-
-void iR_LooksAndFeel::drawTickBox(Graphics& g, Component& component,
-  float x, float y, float w, float h,
-  const bool ticked,
-  const bool isEnabled,
-  const bool shouldDrawButtonAsHighlighted,
-  const bool shouldDrawButtonAsDown)
-{
-  ignoreUnused(isEnabled, shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
-
-  Rectangle<float> tickBounds(x, y, w, h);
-  tickBounds.reduce(h * 0.1f, h * 0.1f);
-
-  if (ticked) {
-    g.setColour(main_colour);
-    g.fillRoundedRectangle(tickBounds, h * 0.3f);
-  }
-
-  g.setColour(Colours::white);
-  g.drawRoundedRectangle(tickBounds, h * 0.3f, h * 0.075f);
 }
 
 } // namespace GUI

@@ -19,9 +19,6 @@ public:
   // constructor
   iR_Button(APVTS& apvts, const String& parameterID);
 
-  // common method
-  void addAndMakeVisibleMyself(AudioProcessorEditor& editor);
-
   // getter
 
   // setter
@@ -35,7 +32,7 @@ private:
 
   APVTS* apvts;
   String parameter_id;
-  std::unique_ptr<ButtonAttachment> button_attachment;
+  ButtonAttachment button_attachment;
 };
 
 } // namespace GUI

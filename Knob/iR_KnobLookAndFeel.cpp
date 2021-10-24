@@ -24,7 +24,7 @@ void iR_KnobLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   // configure
   const auto bounds = Rectangle<int>(x, y, width, height).toFloat().reduced(10);
   const auto centre_x = bounds.getCentreX();
-  const auto centre_y = bounds.getCentreY();
+  const auto centre_y = bounds.getCentreY() - 5;
   const auto diameter = bounds.getHeight();
   const auto radius = diameter / 2.0f;
   const auto toAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
@@ -144,7 +144,7 @@ Slider::SliderLayout iR_KnobLookAndFeel::getSliderLayout(Slider& slider)
     layout.textBoxBounds.setHeight(textBoxHeight);
 
     layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
-    layout.textBoxBounds.setY(localBounds.getHeight() * 0.4);
+    layout.textBoxBounds.setY(localBounds.getHeight() * 0.4 - 5);
   }
 
   layout.sliderBounds = localBounds;

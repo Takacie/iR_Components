@@ -10,16 +10,11 @@ std::unique_ptr<iR_ButtonLookAndFeel> iR_Button::lookandfeel = std::make_unique<
 iR_Button::iR_Button(APVTS& apvts, const String& parameterID) :
   apvts(&apvts),
   parameter_id(parameterID),
-  button_attachment(std::make_unique<ButtonAttachment>(apvts, parameterID, *this))
+  button_attachment(ButtonAttachment(apvts, parameterID, *this))
 {
   setLookAndFeel(lookandfeel.get());
   String text = apvts.getParameter(parameterID)->getName(16);
   setButtonText(text);
-}
-
-void iR_Button::addAndMakeVisibleMyself(AudioProcessorEditor& editor)
-{
-  editor.addAndMakeVisible(this);
 }
 
 void iR_Button::setPosition(int x, int y, int width, float size_ratio)

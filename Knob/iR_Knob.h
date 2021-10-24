@@ -28,9 +28,6 @@ class iR_Knob : public Slider
 public:
   // constructor
   iR_Knob(APVTS& apvts, const String& parameterID, double midPointValue = 0.5);
-
-  // common method
-  void addAndMakeVisibleMyself(AudioProcessorEditor& editor);
   
   // override
   void mouseDoubleClick(const MouseEvent& event) override;
@@ -39,10 +36,11 @@ public:
 
   // getter
   KnobStartPos getStartPosition() { return start_pos; }
+  Label* getTitleLabel() { return &title_label; }
 
   // setter
   void setPosition(int x, int y, float size_ratio);
-  void setShowValue(bool value) { value_label->setAlpha(value); }
+  void setShowValue(bool value) {  }
   void setStartPosition(KnobStartPos value) { start_pos = value; }
 
   // static
@@ -52,9 +50,8 @@ public:
 private:
   APVTS* apvts;
   String parameter_id;
-  std::unique_ptr<KnobAttachment> knob_attachment;
-  std::unique_ptr<Label> title_label_ptr = std::make_unique<Label>();
-  Label* title_label = title_label_ptr.get();
+  KnobAttachment knob_attachment;
+  Label title_label = Label();
   Label* value_label;
   KnobStartPos start_pos = KnobStartPos::StartLeft;
 };

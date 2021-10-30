@@ -19,7 +19,7 @@ public:
     bool isItemSelected, int itemIndex, DirectoryContentsDisplayComponent& dcc) override
   {
     if (isItemSelected) {
-      g.fillAll(Colour(80, 80, 80));
+      g.fillAll(Colour(70, 70, 75));
     }
 
     const int scale_basis = height;
@@ -41,7 +41,7 @@ public:
 
     if (isHighlighted && isActive)
     {
-      g.setColour(Colour(80, 80, 80));
+      g.setColour(Colour(70, 70, 75));
       g.fillRect(r);
     }
 
@@ -54,7 +54,7 @@ public:
 
   void drawPopupMenuBackground(Graphics& g, int width, int height) override
   {
-    g.fillAll(Colour(60, 60, 60));
+    g.fillAll(Colour(50, 50, 55));
   }
 };
 

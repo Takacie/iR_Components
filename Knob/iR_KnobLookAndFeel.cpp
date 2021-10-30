@@ -139,13 +139,11 @@ Slider::SliderLayout iR_KnobLookAndFeel::getSliderLayout(Slider& slider)
 
   Slider::SliderLayout layout;
 
-  if (slider.getTextBoxPosition() != Slider::NoTextBox) {
-    layout.textBoxBounds.setWidth(textBoxWidth);
-    layout.textBoxBounds.setHeight(textBoxHeight);
+  layout.textBoxBounds.setWidth(textBoxWidth);
+  layout.textBoxBounds.setHeight(textBoxHeight);
 
-    layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
-    layout.textBoxBounds.setY(localBounds.getHeight() * 0.4 - 5);
-  }
+  layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
+  layout.textBoxBounds.setY(localBounds.getHeight() * 0.4 - 5);
 
   layout.sliderBounds = localBounds;
 

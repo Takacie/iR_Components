@@ -40,12 +40,13 @@ public:
 
   // setter
   void setPosition(int x, int y, float size_ratio);
-  void setShowValue(bool value) {  }
+  void setShowValue(bool value) { if (value_label) value_label->setAlpha(value); }
   void setStartPosition(KnobStartPos value) { start_pos = value; }
 
   // static
   static std::unique_ptr<iR_KnobLookAndFeel> lookandfeel;
   static void setKnobColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
+  static bool alwaysShowValue;
 
 private:
   APVTS* apvts;

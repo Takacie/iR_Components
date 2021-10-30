@@ -10,15 +10,16 @@ namespace GUI {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_FileBrowserLaF class
 //----------------------------------------------------------------------------------------------------------------------
-class iR_FileBrowserLaF : public LookAndFeel_V4
+class iR_PresetSelectorLaF : public LookAndFeel_V4
 {
 public:
+  // override
   void drawFileBrowserRow(Graphics& g, int width, int height, const File& file, const String& filename, Image* icon,
     const String& fileSizeDescription, const String& fileTimeDescription, bool isDirectory,
-    bool isItemSelected, int itemIndex, DirectoryContentsDisplayComponent& dcc)
+    bool isItemSelected, int itemIndex, DirectoryContentsDisplayComponent& dcc) override
   {
     if (isItemSelected) {
-      g.fillAll(Colour(10, 10, 10));
+      g.fillAll(Colour(80, 80, 80));
     }
 
     const int scale_basis = height;
@@ -28,6 +29,32 @@ public:
 
     const String text = filename.replace(".irps", "");
     g.drawFittedText(text, x, 0, width - x, height, Justification::centredLeft, 1);
+  }
+
+  void drawPopupMenuItem(Graphics& g, const Rectangle<int>& area, bool isSeparator, bool isActive, bool isHighlighted,
+    bool isTicked, bool hasSubMenu, const String& text, const String& shortcutKeyText, const Drawable* icon,
+    const Colour* textColourToUse) override
+  {
+    auto textColour = Colours::white;
+
+    auto r = area.reduced(1);
+
+    if (isHighlighted && isActive)
+    {
+      g.setColour(Colour(80, 80, 80));
+      g.fillRect(r);
+    }
+
+    g.setColour(Colours::white);
+    g.setFont(r.getHeight() * 0.8f);
+
+    r.removeFromLeft(5);
+    g.drawFittedText(text, r, Justification::centredLeft, 1);
+  }
+
+  void drawPopupMenuBackground(Graphics& g, int width, int height) override
+  {
+    g.fillAll(Colour(60, 60, 60));
   }
 };
 

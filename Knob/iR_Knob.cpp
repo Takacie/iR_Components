@@ -53,11 +53,11 @@ void iR_Knob::mouseUp(const MouseEvent& event)
   if (!alwaysShowValue) setShowValue(false);
 }
 
-void iR_Knob::setPosition(int x, int y, float size_ratio)
+void iR_Knob::setPosition(int x, int y, float scale)
 {
-  setBounds(x * size_ratio, y * size_ratio, 100 * size_ratio, 100 * size_ratio);
-  title_label.setBounds(0, 80 * size_ratio, 100 * size_ratio, 20 * size_ratio);
-  title_label.setFont(Font(16 * size_ratio, Font::plain));
+  setBounds(x * scale, y * scale, 100 * scale, 110 * scale);
+  title_label.setBounds(0, 87.5f * scale, 100 * scale, 20 * scale);
+  title_label.setFont(Font(16 * scale, Font::plain));
 }
 
 } // namespace GUI

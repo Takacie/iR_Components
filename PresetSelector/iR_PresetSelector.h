@@ -36,12 +36,12 @@ public:
   {
     x *= scale;
     y *= scale;
-    const int w = 250 * scale;      // entire width
-    const int lb_w = w * 0.8f;      // list_button width
-    const int mb_w = w * 0.2f;      // menu_button width
-    const int h = 30 * scale;       // entire height
-    const int brow_h = 150 * scale; // file_browser height
-    const int row_h = 25 * scale;   // row height
+    const auto w = getWidth();       // entire width
+    const auto lb_w = w * 0.8f;      // list_button width
+    const auto mb_w = w * 0.2f;      // menu_button width
+    const auto h = 30 * scale;       // entire height
+    const auto brow_h = 150 * scale; // file_browser height
+    const auto row_h = 25 * scale;   // row height
 
     setBounds(x, y, w, h);
     list_button.setBounds(0, 0, lb_w, h);
@@ -49,6 +49,8 @@ public:
     list_button.getFileListComponent()->setRowHeight(row_h);
     menu_button.setBounds(lb_w, 0, mb_w, h);
   }
+
+  void setWidth(int newWidth) { setBounds(0, 0, newWidth, 0); }
 
   // getter
   iR_FileListComponentWrapper* getFileListComponent() { return list_button.getFileListComponent(); }

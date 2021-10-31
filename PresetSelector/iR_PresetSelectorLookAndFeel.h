@@ -22,12 +22,12 @@ public:
       g.fillAll(Colour(70, 70, 75));
     }
 
-    const int scale_basis = height;
-    const int x = scale_basis * 0.25f;
+    const auto scale_basis = height;
+    const auto x = scale_basis * 0.25f;
     g.setColour(Colours::white);
     g.setFont(scale_basis * 0.7f);
 
-    const String text = filename.replace(".irps", "");
+    const auto text = filename.replace(".irps", "");
     g.drawFittedText(text, x, 0, width - x, height, Justification::centredLeft, 1);
   }
 

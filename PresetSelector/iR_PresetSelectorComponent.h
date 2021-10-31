@@ -62,12 +62,12 @@ public:
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
   {
-    const Rectangle<int> b = getLocalBounds();
-    const int w = getWidth();
-    const int h = getHeight();
-    const int x = b.getX();
-    const int y = b.getY();
-    const int r = h / 2;
+    const auto b = getLocalBounds();
+    const auto w = getWidth();
+    const auto h = getHeight();
+    const auto x = b.getX();
+    const auto y = b.getY();
+    const auto r = h / 2;
 
     // draw background
     if (shouldDrawButtonAsHighlighted) g.setColour(Colour(70, 70, 75));
@@ -77,10 +77,10 @@ public:
 
     // draw signature
     g.setColour(Colours::white);
-    const float sign_w = w * 0.5f;
-    const float sign_h = h * 0.05f;
-    const float sign_x = x + w * 0.15f;
-    Rectangle<float> sign_rect = Rectangle<float>(sign_x, 0, sign_w, sign_h);
+    const auto sign_w = w * 0.5f;
+    const auto sign_h = h * 0.05f;
+    const auto sign_x = x + w * 0.15f;
+    Rectangle<float> sign_rect(sign_x, 0, sign_w, sign_h);
     g.fillRect(sign_rect.withY(y + h * 0.3f - sign_h / 2));
     g.fillRect(sign_rect.withY(y + h * 0.5f - sign_h / 2));
     g.fillRect(sign_rect.withY(y + h * 0.7f - sign_h / 2));
@@ -89,7 +89,7 @@ public:
   void mouseDown(const MouseEvent& event) override
   {
     Button::mouseDown(event);
-    Point<int> click_position = event.getPosition();
+    auto click_position = event.getPosition();
     popup_menu.showMenuAsync(PopupMenu::Options()
       .withPreferredPopupDirection(PopupMenu::Options::PopupDirection::downwards)
       .withTargetComponent(this)
@@ -165,9 +165,9 @@ public:
   {
     if (file.getFullPathName().isNotEmpty()) {
       setVisible(false);
-      std::unique_ptr<XmlElement> preset_xml = parseXML(file);
+      auto preset_xml = parseXML(file);
       if (preset_xml->hasAttribute("PluginName") && preset_xml->getStringAttribute("PluginName") == PROJECT_NAME) {
-        ValueTree preset_tree = ValueTree::fromXml(*preset_xml);
+        auto preset_tree = ValueTree::fromXml(*preset_xml);
         apvts->replaceState(preset_tree);
         preset_name = file.getFileNameWithoutExtension();
       }
@@ -178,7 +178,6 @@ public:
     exitModalState(0);
     setVisible(false);
   }
-
 
   // getter
   String getPresetName() const { return preset_name; }
@@ -206,12 +205,12 @@ public:
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
   {
-    const Rectangle<int> b = getLocalBounds();
-    const int w = getWidth();
-    const int h = getHeight();
-    const int x = b.getX();
-    const int y = b.getY();
-    const int r = h / 2;
+    const auto b = getLocalBounds();
+    const auto w = getWidth();
+    const auto h = getHeight();
+    const auto x = b.getX();
+    const auto y = b.getY();
+    const auto r = h / 2;
 
     // background color
     if (shouldDrawButtonAsHighlighted) g.setColour(Colour(70, 70, 75));

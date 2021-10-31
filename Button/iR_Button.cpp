@@ -13,7 +13,7 @@ iR_Button::iR_Button(APVTS& apvts, const String& parameterID) :
   button_attachment(ButtonAttachment(apvts, parameterID, *this))
 {
   setLookAndFeel(lookandfeel.get());
-  String text = apvts.getParameter(parameterID)->getName(16);
+  auto text = apvts.getParameter(parameterID)->getName(16);
   setButtonText(text);
 }
 

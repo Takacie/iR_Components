@@ -171,6 +171,9 @@ public:
         apvts->replaceState(preset_tree);
         preset_name = file.getFileNameWithoutExtension();
       }
+      else {
+        getLookAndFeel().playAlertSound();
+      }
     }
   }
   void inputAttemptWhenModal() override

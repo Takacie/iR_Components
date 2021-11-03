@@ -123,6 +123,8 @@ void iR_KnobLookAndFeel::drawLabel(Graphics& g, Label& label)
 
 void iR_KnobLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor)
 {
+  ignoreUnused(width, height);
+
   const Font font(textEditor.getHeight() * 0.7f, Font::plain);
   setColour(CaretComponent::caretColourId, Colour(255, 255, 255));
   textEditor.applyFontToAllText(font);

@@ -8,15 +8,15 @@ namespace GUI {
 std::unique_ptr<iR_KnobLookAndFeel> iR_Knob::lookandfeel = std::make_unique<iR_KnobLookAndFeel>(Colour(132, 106, 192));
 bool iR_Knob::alwaysShowValue = false;
 
-iR_Knob::iR_Knob(APVTS& apvts, const String& parameterID, double midPointValue) :
+iR_Knob::iR_Knob(APVTS& apvts, const String& parameterID, float min_value, float max_value) :
   Slider(SliderStyle::RotaryVerticalDrag, TextBoxBelow),
   apvts(&apvts),
   parameter_id(parameterID),
   knob_attachment(KnobAttachment(apvts, parameterID, *this))
 {
   setLookAndFeel(lookandfeel.get());
-  setRange(0.0, 1.0);
-  setSkewFactorFromMidPoint(midPointValue);
+  setRange(min_value, max_value);
+  setSkewFactorFromMidPoint(min_value + (max_value - min_value) / 2);
 
   String text = apvts.getParameter(parameterID)->getName(16);
   title_label.setLookAndFeel(&title_label.getLookAndFeel()); // apply default to title_label

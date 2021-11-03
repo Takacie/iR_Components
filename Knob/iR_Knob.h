@@ -27,7 +27,7 @@ class iR_Knob : public Slider
 {
 public:
   // constructor
-  iR_Knob(APVTS& apvts, const String& parameterID, double midPointValue = 0.5);
+  iR_Knob(APVTS& apvts, const String& parameterID, float min_value = 0.0f, float max_value = 1.0f);
   
   // override
   void mouseDoubleClick(const MouseEvent& event) override;

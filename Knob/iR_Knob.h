@@ -13,23 +13,19 @@ using APVTS = AudioProcessorValueTreeState;
 using KnobAttachment = AudioProcessorValueTreeState::SliderAttachment;
 
 //----------------------------------------------------------------------------------------------------------------------
-// KnobStartPos enum class
-//----------------------------------------------------------------------------------------------------------------------
-enum class KnobStartPos
-{
-  StartLeft, StartCenter, StartRight
-};
-
-//----------------------------------------------------------------------------------------------------------------------
 // Knob class
 //----------------------------------------------------------------------------------------------------------------------
 class iR_Knob : public Slider
 {
 public:
+  // enums
+  enum KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
+
   // constructor
   iR_Knob(APVTS& apvts, const String& parameterID, float min_value = 0.0f, float max_value = 1.0f);
   
   // override
+  void paint(Graphics& g) override;
   void mouseDoubleClick(const MouseEvent& event) override;
   void mouseDrag(const MouseEvent& event) override;
   void mouseUp(const MouseEvent& event) override;
@@ -54,7 +50,7 @@ private:
   KnobAttachment knob_attachment;
   Label title_label = Label();
   Label* value_label;
-  KnobStartPos start_pos = KnobStartPos::StartLeft;
+  KnobStartPos start_pos = StartLeft;
 };
 
 } // namespace GUI

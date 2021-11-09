@@ -31,6 +31,16 @@ iR_Knob::iR_Knob(APVTS& apvts, const String& parameterID, float min_value, float
   if (!alwaysShowValue) setShowValue(false);
 }
 
+void iR_Knob::paint(Graphics& g)
+{
+  Slider::paint(g);
+  if (isEnabled()) {
+    setAlpha(1.0f);
+    return;
+  }
+  setAlpha(0.5f);
+}
+
 void iR_Knob::mouseDoubleClick(const MouseEvent& event)
 {
   if (ModifierKeys::getCurrentModifiers().isCtrlDown()) {

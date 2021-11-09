@@ -31,7 +31,7 @@ void iR_ButtonLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.drawFittedText(button.getButtonText(),
     button.getLocalBounds().withTrimmedLeft(roundToInt(size * 1.3f))
     .withTrimmedRight(2),
-    Justification::centredLeft, 10);
+    Justification::centredLeft, 1);
 }
 
 void iR_ButtonLookAndFeel::drawTickBox(Graphics& g, Component& component,

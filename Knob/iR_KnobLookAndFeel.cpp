@@ -50,18 +50,17 @@ void iR_KnobLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   g.setColour(colour01);
   g.strokePath(back_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::rounded));
 
-  if (slider.isEnabled())
-  {
-    // draw value arc
-    KnobStartPos start_pos = dynamic_cast<iR_Knob*>(&slider)->getStartPosition();
-    Path value_arc_path;
-    if (start_pos == KnobStartPos::StartLeft) {
+  // draw value arc
+  iR_Knob::KnobStartPos start_pos = dynamic_cast<iR_Knob*>(&slider)->getStartPosition();
+  Path value_arc_path;
+  if (start_pos != iR_Knob::StartPosNone) {
+    if (start_pos == iR_Knob::StartLeft) {
       value_arc_path.addCentredArc(centre, centre, arc_r, arc_r, 0.0f, rotaryStartAngle, to_angle, true);
     }
-    else if (start_pos == KnobStartPos::StartRight) {
+    else if (start_pos == iR_Knob::StartRight) {
       value_arc_path.addCentredArc(centre, centre, arc_r, arc_r, 0.0f, rotaryEndAngle, to_angle, true);
     }
-    else if (start_pos == KnobStartPos::StartCenter) {
+    else if (start_pos == iR_Knob::StartCenter) {
       if (sliderPosProportional > 0.5f) {
         value_arc_path.addCentredArc(centre, centre, arc_r, arc_r,
           0.0f, MathConstants<float>::twoPi, to_angle, true);
@@ -71,32 +70,31 @@ void iR_KnobLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
           0.0f, MathConstants<float>::twoPi, to_angle, true);
       }
     }
-
-    g.setColour(main_colour);
-    g.strokePath(value_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::rounded));
-
-    // draw ellipse guide
-    Path guide_path;
-    const auto ellipse_r = ellipse_diameter * 0.5f;
-    const auto guide_x = centre + ellipse_r * std::sin(to_angle) * 0.5f;
-    const auto guide_y = centre - ellipse_r * std::cos(to_angle) * 0.5f;
-    guide_path.startNewSubPath(guide_x, guide_y);
-    guide_path.lineTo(value_arc_path.getCurrentPosition());
-
-    g.setColour(colour02);
-    g.setColour(colour02);
-    g.strokePath(guide_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::butt));
-
-    // draw handle
-    Path handle_path;
-    const auto handle_width = line_width * 2.5f;
-    Rectangle handle(-handle_width / 2, -handle_width / 2, handle_width, handle_width);
-    AffineTransform transform = AffineTransform::rotation(to_angle).translated(value_arc_path.getCurrentPosition());
-    handle_path.addRectangle(handle);
-
-    g.setColour(colour02);
-    g.fillPath(handle_path, transform);
   }
+
+  g.setColour(main_colour);
+  g.strokePath(value_arc_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::rounded));
+
+  // draw ellipse guide
+  Path guide_path;
+  const auto ellipse_r = ellipse_diameter * 0.5f;
+  const auto guide_x = centre + ellipse_r * std::sin(to_angle) * 0.5f;
+  const auto guide_y = centre - ellipse_r * std::cos(to_angle) * 0.5f;
+  guide_path.startNewSubPath(guide_x, guide_y);
+  guide_path.lineTo(value_arc_path.getCurrentPosition());
+
+  g.setColour(colour02);
+  g.strokePath(guide_path, PathStrokeType(line_width, PathStrokeType::curved, PathStrokeType::butt));
+
+  // draw handle
+  Path handle_path;
+  const auto handle_width = line_width * 2.5f;
+  Rectangle handle(-handle_width / 2, -handle_width / 2, handle_width, handle_width);
+  AffineTransform transform = AffineTransform::rotation(to_angle).translated(value_arc_path.getCurrentPosition());
+  handle_path.addRectangle(handle);
+
+  g.setColour(colour02);
+  g.fillPath(handle_path, transform);
 }
 
 void iR_KnobLookAndFeel::drawLabel(Graphics& g, Label& label)

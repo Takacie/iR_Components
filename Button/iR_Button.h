@@ -29,7 +29,6 @@ public:
   static void setButtonColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
 
 private:
-
   APVTS* apvts;
   String parameter_id;
   ButtonAttachment button_attachment;

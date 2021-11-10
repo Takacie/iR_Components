@@ -19,6 +19,13 @@ public:
   // constructor
   iR_Button(APVTS& apvts, const String& parameterID);
 
+  // override
+  void paint(Graphics& g) override
+  {
+    Button::paint(g);
+    setAlpha(isEnabled() ? 1.0f : 0.5f);
+  }
+
   // getter
 
   // setter

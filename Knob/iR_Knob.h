@@ -48,7 +48,7 @@ private:
   APVTS* apvts;
   String parameter_id;
   KnobAttachment knob_attachment;
-  Label title_label = Label();
+  Label title_label;
   Label* value_label;
   KnobStartPos start_pos = StartLeft;
 };

@@ -25,9 +25,6 @@ void iR_ButtonLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.setColour(button.findColour(ToggleButton::textColourId));
   g.setFont(font);
 
-  if (!button.isEnabled())
-    g.setOpacity(0.5f);
-
   g.drawFittedText(button.getButtonText(),
     button.getLocalBounds().withTrimmedLeft(roundToInt(size * 1.3f))
     .withTrimmedRight(2),

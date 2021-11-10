@@ -35,6 +35,9 @@ void iR_Knob::paint(Graphics& g)
 {
   Slider::paint(g);
   setAlpha(isEnabled() ? 1.0f : 0.5f);
+  if (!isMouseOverOrDragging() && !value_label->isBeingEdited()) {
+    if (!alwaysShowValue) setShowValue(false);
+  }
 }
 
 void iR_Knob::mouseDoubleClick(const MouseEvent& event)

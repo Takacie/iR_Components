@@ -38,6 +38,7 @@ public:
   void setPosition(int x, int y, float size_ratio);
   void setShowValue(bool value) { if (value_label) value_label->setAlpha(value); }
   void setStartPosition(KnobStartPos value) { start_pos = value; }
+  double test(String a) { return 1.0f; };
 
   // static
   static std::unique_ptr<iR_KnobLookAndFeel> lookandfeel;

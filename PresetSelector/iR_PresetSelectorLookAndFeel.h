@@ -55,6 +55,9 @@ public:
   void drawPopupMenuBackground(Graphics& g, int width, int height) override
   {
     g.fillAll(Colour(50, 50, 55));
+    Rectangle<float> menu_rect(0, 0, width, height);
+    g.setColour(Colour(200, 200, 205));
+    g.drawRect(menu_rect);
   }
 };
 

@@ -22,6 +22,8 @@ iR_FileListComponent::iR_FileListComponent(DirectoryContentsList& directoryConte
   addListener(this);
   setFocusContainerType(FocusContainerType::focusContainer);
   setColour(backgroundColourId, Colour(50, 50, 55));
+  setColour(outlineColourId, Colour(200, 200, 205));
+  setOutlineThickness(1);
 }
 
 void iR_FileListComponent::fileDoubleClicked(const File& file)

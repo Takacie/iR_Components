@@ -5,3 +5,4 @@
 #include "ComboBox/iR_ComboBox.h"
 #include "PresetSelector/iR_PresetSelector.h"
 #include "Header/iR_Header.h"
+#include "Equalizer/iR_Equalizer.h"

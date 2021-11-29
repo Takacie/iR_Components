@@ -22,7 +22,7 @@ public:
   enum KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
 
   // constructor
-  iR_Knob(APVTS& apvts, const String& parameterID, float min_value = 0.0f, float max_value = 1.0f);
+  iR_Knob(APVTS& apvts, const String& parameterID);
   
   // override
   void paint(Graphics& g) override;

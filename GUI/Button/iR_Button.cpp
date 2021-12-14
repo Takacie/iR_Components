@@ -1,7 +1,6 @@
 #include "iR_Button.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Button implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -22,5 +21,4 @@ void iR_Button::setPosition(int x, int y, int width, float size_ratio)
   setBounds(x * size_ratio, y * size_ratio, width * size_ratio, 20 * size_ratio);
 }
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

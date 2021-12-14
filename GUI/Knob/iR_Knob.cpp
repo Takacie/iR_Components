@@ -1,7 +1,6 @@
 #include "iR_Knob.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Knob implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -72,5 +71,4 @@ void iR_Knob::setPosition(int x, int y, float scale)
   title_label.setFont(Font(16 * scale, Font::plain));
 }
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

@@ -2,8 +2,7 @@
 
 #include "iR_PresetSelectorComponent.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_PresetSelector class
 //----------------------------------------------------------------------------------------------------------------------
@@ -33,5 +32,4 @@ private:
   iR_PresetMenuButton menu_button = iR_PresetMenuButton(user_properties, apvts, &list);
 };
 
-}
-}
+} // namespace iNVOXRecords::gui

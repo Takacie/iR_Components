@@ -1,7 +1,6 @@
 #pragma once
 
-namespace iNVOXRecords {
-namespace DSP {
+namespace iNVOXRecords::gui {
 static void setStereoEnhance(float width, float* in_L, float* in_R)
 {
   float tmp = 1.0f / std::fmax(1.0f + width, 2.0f);
@@ -10,5 +9,4 @@ static void setStereoEnhance(float width, float* in_L, float* in_R)
   *in_L = mid - side;
   *in_R = mid + side;
 }
-}
-}
+} // namespace iNVOXRecords::gui

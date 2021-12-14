@@ -1,8 +1,7 @@
 #include "iR_KnobLookAndFeel.h"
 #include "iR_Knob.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_KnobLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -53,14 +52,14 @@ void iR_KnobLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   // draw value arc
   iR_Knob::KnobStartPos start_pos = dynamic_cast<iR_Knob*>(&slider)->getStartPosition();
   Path value_arc_path;
-  if (start_pos != iR_Knob::StartPosNone) {
-    if (start_pos == iR_Knob::StartLeft) {
+  if (start_pos != iR_Knob::KnobStartPos::StartPosNone) {
+    if (start_pos == iR_Knob::KnobStartPos::StartLeft) {
       value_arc_path.addCentredArc(centre, centre, arc_r, arc_r, 0.0f, rotaryStartAngle, to_angle, true);
     }
-    else if (start_pos == iR_Knob::StartRight) {
+    else if (start_pos == iR_Knob::KnobStartPos::StartRight) {
       value_arc_path.addCentredArc(centre, centre, arc_r, arc_r, 0.0f, rotaryEndAngle, to_angle, true);
     }
-    else if (start_pos == iR_Knob::StartCenter) {
+    else if (start_pos == iR_Knob::KnobStartPos::StartCenter) {
       if (sliderPosProportional > 0.5f) {
         value_arc_path.addCentredArc(centre, centre, arc_r, arc_r,
           0.0f, MathConstants<float>::twoPi, to_angle, true);
@@ -149,5 +148,4 @@ Slider::SliderLayout iR_KnobLookAndFeel::getSliderLayout(Slider& slider)
   return layout;
 }
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

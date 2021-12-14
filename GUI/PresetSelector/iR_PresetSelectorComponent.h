@@ -1,16 +1,16 @@
 #pragma once
 
 #include "iR_PresetSelectorLookAndFeel.h"
-#include "../../iR_ProcessorUtil/iR_ProcessorUtil.h"
+#include "../../Utility/UserProperties/iR_UserProperties.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
+using namespace iNVOXRecords::utility;
 
 using APVTS = AudioProcessorValueTreeState;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_DirectoryList class
 //----------------------------------------------------------------------------------------------------------------------
@@ -103,5 +103,4 @@ private:
     = std::make_unique<iR_FileListComponent>(*dir_list->getDirectoryContentsList(), apvts);
 };
 
-}
-}
+} // namespace iNVOXRecords::gui

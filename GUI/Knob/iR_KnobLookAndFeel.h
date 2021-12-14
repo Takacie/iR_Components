@@ -5,8 +5,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_KnobLookAndFeel class
 //----------------------------------------------------------------------------------------------------------------------
@@ -31,5 +30,4 @@ private:
   Colour main_colour;
 };
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

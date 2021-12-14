@@ -1,6 +1,6 @@
 #include "iR_UserProperties.h"
 
-namespace iNVOXRecords {
+namespace iNVOXRecords::utility {
 //----------------------------------------------------------------------------------------------------------------------
 // UserProperties implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -24,4 +24,4 @@ void iR_UserProperties::setScaleProperty(float newScale, bool withSave)
   }
 }
 
-}
+} // namespace iNVOXRecords::utility

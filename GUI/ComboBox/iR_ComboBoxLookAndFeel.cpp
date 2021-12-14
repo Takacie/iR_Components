@@ -1,7 +1,6 @@
 #include "iR_ComboBoxLookAndFeel.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_ButtonLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -10,5 +9,4 @@ iR_ComboBoxLookAndFeel::iR_ComboBoxLookAndFeel(const juce::Colour& main_colour) 
 {}
 
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

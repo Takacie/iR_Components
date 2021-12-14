@@ -1,7 +1,6 @@
 #include "iR_PresetSelectorComponent.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_DirectoryList implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -180,5 +179,4 @@ void iR_PresetListButton::mouseDown(const MouseEvent& event)
   file_list_component->enterModalState();
 }
 
-}
-}
+} // namespace iNVOXRecords::gui

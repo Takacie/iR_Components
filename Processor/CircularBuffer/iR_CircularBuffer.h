@@ -6,7 +6,7 @@
 using namespace juce;
 using uint32 = std::uint32_t;
 
-namespace iNVOXRecords {
+namespace iNVOXRecords::processor {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_CircularBuffer class
 //----------------------------------------------------------------------------------------------------------------------
@@ -96,4 +96,4 @@ private:
   }
 };
 
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::processor

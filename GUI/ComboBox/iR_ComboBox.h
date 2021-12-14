@@ -6,8 +6,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_ComboBox class
 //----------------------------------------------------------------------------------------------------------------------
@@ -75,5 +74,4 @@ private:
   ComboBoxParameterAttachment attachment;
 };
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

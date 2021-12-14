@@ -1,16 +1,15 @@
 #pragma once
 
 #include "../Handle/iR_EQ_Handle.h"
-#include "../../Processor/iR_EQ_Processor.h"
+#include "../../../Processor/Equalizer/iR_EQ_Processor.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace Equalizer {
-namespace GUI {
+namespace iNVOXRecords::gui::equalizer {
 
-using namespace Processor;
+using namespace processor::equalizer;
+
 class iR_EqHandle;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -150,6 +149,4 @@ private:
   }
 };
 
-} // namespace GUI
-} // namespace Equalizer
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui::equalizer

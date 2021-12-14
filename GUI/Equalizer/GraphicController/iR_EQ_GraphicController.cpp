@@ -1,9 +1,7 @@
 #include "iR_EQ_GraphicController.h"
 #include "../Handle/iR_EQ_Handle.h"
 
-namespace iNVOXRecords {
-namespace Equalizer {
-namespace GUI {
+namespace iNVOXRecords::gui::equalizer {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_EqGraphicController implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -100,6 +98,4 @@ void iR_EqGraphicController::setPosition(int x, int y, float scale)
   setBounds(x * scale, y * scale, init_width * scale, init_height * scale);
 }
 
-} // namespace Equalizer
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui::equalizer

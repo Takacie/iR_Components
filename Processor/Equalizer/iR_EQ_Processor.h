@@ -7,8 +7,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace Equalizer {
+namespace iNVOXRecords::processor::equalizer {
 //----------------------------------------------------------------------------------------------------------------------
 // constants
 //----------------------------------------------------------------------------------------------------------------------
@@ -58,8 +57,6 @@ using Filter = dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, Coeffs>;
 using FilterPtr = std::unique_ptr<Filter>;
 using FD = dsp::FilterDesign<float>;
 
-//----------------------------------------------------------------------------------------------------------------------
-namespace Processor {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_EqProcessor implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -261,6 +258,4 @@ private:
   }
 };
 
-}
-}
-}
+} // namespace iNVOXRecords::processor::equalizer

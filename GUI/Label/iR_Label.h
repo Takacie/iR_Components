@@ -6,7 +6,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords::GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Label class
 //----------------------------------------------------------------------------------------------------------------------
@@ -86,4 +86,4 @@ private:
   Colour textColour { Colours::white };
 };
 
-} // namespace iNVOXRecords::GUI
+} // namespace iNVOXRecords::gui

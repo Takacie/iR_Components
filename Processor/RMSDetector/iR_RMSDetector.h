@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../iR_ProcessorUtil.h"
+#include "../CircularBuffer/iR_CircularBuffer.h"
 
-namespace iNVOXRecords {
+namespace iNVOXRecords::processor {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_RMSDetector class
 //----------------------------------------------------------------------------------------------------------------------
@@ -34,4 +34,5 @@ private:
   iR_CircularBuffer<float> buffer;
   float sum = 0.0f;
 };
-}
+
+} // namespace iNVOXRecords::processor

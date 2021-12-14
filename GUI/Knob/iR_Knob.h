@@ -6,8 +6,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 
 using APVTS = AudioProcessorValueTreeState;
 using KnobAttachment = AudioProcessorValueTreeState::SliderAttachment;
@@ -19,7 +18,7 @@ class iR_Knob : public Slider
 {
 public:
   // enums
-  enum KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
+  enum class KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
 
   // constructor
   iR_Knob(APVTS& apvts, const String& parameterID);
@@ -51,8 +50,7 @@ private:
   KnobAttachment knob_attachment;
   Label title_label;
   Label* value_label;
-  KnobStartPos start_pos = StartLeft;
+  KnobStartPos start_pos = KnobStartPos::StartLeft;
 };
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

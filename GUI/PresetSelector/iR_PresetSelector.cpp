@@ -1,7 +1,6 @@
 #include "iR_PresetSelector.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_PresetSelector implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -44,5 +43,4 @@ void iR_PresetSelector::setPosition(int x, int y, float scale)
   menu_button.setBounds(lb_w, 0, mb_w, h);
 }
 
-}
-}
+} // namespace iNVOXRecords::gui

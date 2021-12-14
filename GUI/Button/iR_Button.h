@@ -6,8 +6,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // Button class
 //----------------------------------------------------------------------------------------------------------------------
@@ -41,5 +40,4 @@ private:
   ButtonAttachment button_attachment;
 };
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

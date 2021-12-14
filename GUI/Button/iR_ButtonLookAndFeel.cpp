@@ -1,7 +1,6 @@
 #include "iR_ButtonLookAndFeel.h"
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_ButtonLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,5 +51,4 @@ void iR_ButtonLookAndFeel::drawTickBox(Graphics& g, Component& component,
   g.drawRoundedRectangle(tickBounds, h * 0.3f, h * 0.075f);
 }
 
-} // namespace GUI
-} // namespace iNVOXRecords
+} // namespace iNVOXRecords::gui

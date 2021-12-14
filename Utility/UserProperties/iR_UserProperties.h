@@ -4,7 +4,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
+namespace iNVOXRecords::utility {
 //----------------------------------------------------------------------------------------------------------------------
 // UserProperties class
 //----------------------------------------------------------------------------------------------------------------------
@@ -25,4 +25,4 @@ private:
   PropertiesFile::Options options;
 };
 
-}
+} // namespace iNVOXRecords::utility

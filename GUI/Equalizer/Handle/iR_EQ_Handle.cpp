@@ -2,7 +2,7 @@
 #include "../GraphicController/iR_EQ_GraphicController.h"
 #include "juce_audio_basics/juce_audio_basics.h"
 
-namespace iNVOXRecords::Equalizer::GUI {
+namespace iNVOXRecords::gui::equalizer {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_EqHandle implementation
 //----------------------------------------------------------------------------------------------------------------------
@@ -166,4 +166,4 @@ void iR_EqHandle::updateRelativePos()
   relativePos[1] = centrePos.getY() / parent.getHeight();
 }
 
-} // namespace iNVOXRecords::GUI::Equalizer
+} // namespace iNVOXRecords::gui::equalizer

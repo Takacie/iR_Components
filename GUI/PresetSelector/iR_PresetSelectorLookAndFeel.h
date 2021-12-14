@@ -5,8 +5,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_FileBrowserLaF class
 //----------------------------------------------------------------------------------------------------------------------
@@ -61,5 +60,4 @@ public:
   }
 };
 
-}
-}
+} // namespace iNVOXRecords::gui

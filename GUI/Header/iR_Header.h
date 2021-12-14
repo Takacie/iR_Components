@@ -6,8 +6,7 @@
 
 using namespace juce;
 
-namespace iNVOXRecords {
-namespace GUI {
+namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // iR_Header class
 //----------------------------------------------------------------------------------------------------------------------
@@ -78,5 +77,4 @@ private:
   iR_PresetSelector selector = iR_PresetSelector(apvts, user_properties);
 };
 
-}
-}
+} // namespace iNVOXRecords::gui

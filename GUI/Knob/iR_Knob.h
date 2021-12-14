@@ -21,36 +21,52 @@ public:
   enum class KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
 
   // constructor
-  iR_Knob(APVTS& apvts, const String& parameterID);
+  iR_Knob(APVTS& apvts, const String& parameterID, const float& scale);
   
   // override
   void paint(Graphics& g) override;
   void mouseDoubleClick(const MouseEvent& event) override;
   void mouseDrag(const MouseEvent& event) override;
   void mouseUp(const MouseEvent& event) override;
+  void parentSizeChanged() override;
 
   // getter
-  KnobStartPos getStartPosition() { return start_pos; }
-  Label* getTitleLabel() { return &title_label; }
+  KnobStartPos getStartPosition() { return startPos; }
+  Label* getTitleLabel() { return &titleLabel; }
 
   // setter
-  void setPosition(int x, int y, float size_ratio);
-  void setShowValue(bool value) { if (value_label) value_label->setAlpha(value); }
-  void setStartPosition(KnobStartPos value) { start_pos = value; }
-  double test(String a) { return 1.0f; };
+  void setShowValue(bool value) { valueLabel->setAlpha(value); }
+  void setStartPosition(KnobStartPos value) { startPos = value; }
+
+  void setInitPosition(const Point<int>& point) noexcept
+  {
+	setBounds(point.getX(), point.getY(), 100 * scale, 110 * scale);
+	initPosition = point;
+	parentSizeChanged();
+  }
+
+  void setUseIndividualColour(bool state) { useIndividualColour = state; }
 
   // static
   static std::unique_ptr<iR_KnobLookAndFeel> lookandfeel;
-  static void setKnobColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
   static bool alwaysShowValue;
+  static Colour staticColour;
+  static void setKnobColor(const Colour& colour) { staticColour = colour; }
 
 private:
   APVTS* apvts;
-  String parameter_id;
-  KnobAttachment knob_attachment;
-  Label title_label;
-  Label* value_label;
-  KnobStartPos start_pos = KnobStartPos::StartLeft;
+  String parameterId;
+
+  const float& scale;
+  Point<int> initPosition;
+
+  KnobAttachment attachment;
+  Label titleLabel;
+  Label* valueLabel;
+  KnobStartPos startPos { KnobStartPos::StartLeft };
+
+  bool useIndividualColour { false };
+  Colour mainColour { 132, 106, 192 };
 };
 
 } // namespace iNVOXRecords::gui

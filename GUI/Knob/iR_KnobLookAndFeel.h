@@ -16,8 +16,6 @@ public:
   iR_KnobLookAndFeel(const Colour& mainColour = Colour(132, 106, 192));
 
   // override
-  void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional,
-    float rotaryStartAngle, float rotaryEndAngle, Slider& slider) override;
   void drawLabel(Graphics& g, Label& label) override;
   void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
   void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}

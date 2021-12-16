@@ -7,6 +7,7 @@
 #include "GUI/Header/iR_Header.h"
 #include "GUI/Label/iR_Label.h"
 #include "GUI/TextEditor/iR_TextEditor.h"
+#include "GUI/GridComponent/iR_GridComponent.h"
 #include "GUI/Equalizer/Handle/iR_EQ_Handle.h"
 #include "GUI/Equalizer/GraphicController/iR_EQ_GraphicController.h"
 

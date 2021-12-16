@@ -41,24 +41,4 @@ void iR_KnobLookAndFeel::fillTextEditorBackground(Graphics& g, int width, int he
   textEditor.setJustification(Justification::centred);
 }
 
-Slider::SliderLayout iR_KnobLookAndFeel::getSliderLayout(Slider& slider)
-{
-  auto localBounds = slider.getLocalBounds();
-
-  auto textBoxWidth = slider.getWidth() * 0.8;
-  auto textBoxHeight = slider.getHeight() * 0.2;
-
-  Slider::SliderLayout layout;
-
-  layout.textBoxBounds.setWidth(textBoxWidth);
-  layout.textBoxBounds.setHeight(textBoxHeight);
-
-  layout.textBoxBounds.setX((localBounds.getWidth() - textBoxWidth) / 2);
-  layout.textBoxBounds.setY(localBounds.getHeight() * 0.4 - 5);
-
-  layout.sliderBounds = localBounds;
-
-  return layout;
-}
-
 } // namespace iNVOXRecords::gui

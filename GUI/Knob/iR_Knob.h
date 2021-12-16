@@ -14,11 +14,11 @@ using KnobAttachment = AudioProcessorValueTreeState::SliderAttachment;
 //----------------------------------------------------------------------------------------------------------------------
 // Knob class
 //----------------------------------------------------------------------------------------------------------------------
-class iR_Knob : public Slider
+class iR_Knob : public Component
 {
 public:
   // enums
-  enum class KnobStartPos { StartLeft, StartCenter, StartRight, StartPosNone };
+  enum class KnobStartPos { StartLeft, StartCenter, StartRight };
 
   // constructor
   iR_Knob(APVTS& apvts, const String& parameterID, const float& scale);
@@ -26,47 +26,44 @@ public:
   // override
   void paint(Graphics& g) override;
   void mouseDoubleClick(const MouseEvent& event) override;
+  void mouseDown(const MouseEvent& event) override;
   void mouseDrag(const MouseEvent& event) override;
   void mouseUp(const MouseEvent& event) override;
   void parentSizeChanged() override;
 
-  // getter
-  KnobStartPos getStartPosition() { return startPos; }
-  Label* getTitleLabel() { return &titleLabel; }
-
   // setter
-  void setShowValue(bool value) { valueLabel->setAlpha(value); }
-  void setStartPosition(KnobStartPos value) { startPos = value; }
-
-  void setInitPosition(const Point<int>& point) noexcept
-  {
-	setBounds(point.getX(), point.getY(), 100 * scale, 110 * scale);
-	initPosition = point;
-	parentSizeChanged();
-  }
-
-  void setUseIndividualColour(bool state) { useIndividualColour = state; }
+  void setShowValue(bool value) noexcept { valueLabel.setAlpha(value); }
+  void setStartPosition(KnobStartPos value) noexcept { startPos = value; }
+  void setInitPosition(const Point<int>& point) noexcept;
+  void setUseIndividualColour(bool state, const Colour& colour) noexcept;
+  void setSkewFactorFromMidPoint(float midPoint) { range.setSkewForCentre(midPoint); }
 
   // static
-  static std::unique_ptr<iR_KnobLookAndFeel> lookandfeel;
   static bool alwaysShowValue;
   static Colour staticColour;
-  static void setKnobColor(const Colour& colour) { staticColour = colour; }
+  static void setKnobColor(const Colour& colour) noexcept { staticColour = colour; }
 
 private:
-  APVTS* apvts;
-  String parameterId;
+  APVTS& apvts;
+  RangedAudioParameter& parameter;
+
+  NormalisableRange<float> range { parameter.getNormalisableRange() };
+  int editStartY { 0 };
+  float editStartValue { 0.0f };
+  float value { 0.0f };
+  ParameterAttachment attachment{ parameter, [&](float newValue) { value = range.convertTo0to1(newValue); repaint(); }, nullptr };
 
   const float& scale;
   Point<int> initPosition;
 
-  KnobAttachment attachment;
   Label titleLabel;
-  Label* valueLabel;
+  Label valueLabel;
   KnobStartPos startPos { KnobStartPos::StartLeft };
 
   bool useIndividualColour { false };
   Colour mainColour { 132, 106, 192 };
+
+  bool isEdit { false };
 };
 
 } // namespace iNVOXRecords::gui

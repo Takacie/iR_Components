@@ -19,7 +19,6 @@ public:
   void drawLabel(Graphics& g, Label& label) override;
   void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
   void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
-  Slider::SliderLayout getSliderLayout(Slider& slider) override;
 
   // setter
   void setMainColour(const Colour& mainColour) { main_colour = mainColour; }

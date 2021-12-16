@@ -4,6 +4,7 @@
 
 using namespace juce;
 
+// Note: General-purpose helper methods will be put in a separate file.
 inline float logMap0To1(float denormValue, float min, float max)
 {
   return std::log(denormValue / min) / std::log(max / min);
@@ -65,10 +66,10 @@ public:
     const int y = initRect.getY() * scale;
     const int w = initRect.getWidth() * scale;
     const int h = initRect.getHeight() * scale;
-    const int mainViewX = w * mainViewReduceRatio[1];
-    const int mainViewY = h * mainViewReduceRatio[0];
-    const int mainViewW = w * (1.0f - (mainViewReduceRatio[1] + mainViewReduceRatio[3]));
-    const int mainViewH = h * (1.0f - (mainViewReduceRatio[0] + mainViewReduceRatio[2]));
+    const int mainViewX = w * mainViewReduceRatio[1];                                      // width * leftReduceRatio
+    const int mainViewY = h * mainViewReduceRatio[0];                                      // height * topReduceRatio
+    const int mainViewW = w * (1.0f - (mainViewReduceRatio[1] + mainViewReduceRatio[3]));  // width * (1.0 - (leftReduceRatio + rightReduceRatio))
+    const int mainViewH = h * (1.0f - (mainViewReduceRatio[0] + mainViewReduceRatio[2]));  // height * (1.0 - (topReduceRatio + bottomReduceRatio))
 
     setBounds(x, y, w, h);
     mainViewRect.setBounds(mainViewX, mainViewY, mainViewW, mainViewH);

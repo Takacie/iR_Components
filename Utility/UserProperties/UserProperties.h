@@ -22,20 +22,29 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+#include "juce_audio_processors/juce_audio_processors.h"
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+using namespace juce;
 
-#include "Utility/UserProperties/UserProperties.h"
+namespace iNVOXRecords::utility {
+//----------------------------------------------------------------------------------------------------------------------
+// UserProperties class
+//----------------------------------------------------------------------------------------------------------------------
+class UserProperties : public juce::ApplicationProperties
+{
+public:
+  // constructor
+  UserProperties(const String& applicationName);
+
+  // getter
+  PropertiesFile::Options getOptions() { return options; }
+
+  // setter
+  void setScaleProperty(float newScale, bool withSave = false);
+
+private:
+  PropertiesFile* user_property;
+  PropertiesFile::Options options;
+};
+
+} // namespace iNVOXRecords::utility

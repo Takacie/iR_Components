@@ -22,20 +22,44 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+#include "ButtonLookAndFeel.h"
+#include "juce_audio_processors/juce_audio_processors.h"
+#include "juce_gui_basics/juce_gui_basics.h"
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+using namespace juce;
 
-#include "Utility/UserProperties/UserProperties.h"
+namespace iNVOXRecords::gui {
+//----------------------------------------------------------------------------------------------------------------------
+// Button class
+//----------------------------------------------------------------------------------------------------------------------
+using APVTS = AudioProcessorValueTreeState;
+using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
+class Button : public juce::ToggleButton
+{
+public:
+  // constructor
+  Button(APVTS& apvts, const String& parameterID);
+
+  // override
+  void paint(Graphics& g) override
+  {
+    Button::paint(g);
+    setAlpha(isEnabled() ? 1.0f : 0.5f);
+  }
+
+  // getter
+
+  // setter
+  void setPosition(int x, int y, int width, float size_ratio);
+
+  // static
+  static std::unique_ptr<ButtonLookAndFeel> lookandfeel;
+  static void setButtonColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
+
+private:
+  APVTS* apvts;
+  String parameter_id;
+  ButtonAttachment button_attachment;
+};
+
+} // namespace iNVOXRecords::gui

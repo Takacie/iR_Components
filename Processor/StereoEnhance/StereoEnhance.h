@@ -22,20 +22,13 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
-
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
-
-#include "Utility/UserProperties/UserProperties.h"
+namespace iNVOXRecords::processor {
+static void setStereoEnhance(float width, float* in_L, float* in_R)
+{
+  float tmp = 1.0f / std::fmax(1.0f + width, 2.0f);
+  float mid = (*in_L + *in_R) * tmp;
+  float side = (*in_R - *in_L) * width * tmp;
+  *in_L = mid - side;
+  *in_R = mid + side;
+}
+} // namespace iNVOXRecords::gui

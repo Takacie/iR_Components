@@ -20,22 +20,27 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 /*///-------------------------------------------------------------------------------------------------------------------
 
-#pragma once
+#include "Button.h"
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+namespace iNVOXRecords::gui {
+//----------------------------------------------------------------------------------------------------------------------
+// Button implementation
+//----------------------------------------------------------------------------------------------------------------------
+std::unique_ptr<ButtonLookAndFeel> Button::lookandfeel = std::make_unique<ButtonLookAndFeel>(Colour(132, 106, 192));
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+Button::Button(APVTS& apvts, const String& parameterID) :
+  apvts(&apvts),
+  parameter_id(parameterID),
+  button_attachment(ButtonAttachment(apvts, parameterID, *this))
+{
+  setLookAndFeel(lookandfeel.get());
+  auto text = apvts.getParameter(parameterID)->getName(16);
+  setButtonText(text);
+}
 
-#include "Utility/UserProperties/UserProperties.h"
+void Button::setPosition(int x, int y, int width, float size_ratio)
+{
+  setBounds(x * size_ratio, y * size_ratio, width * size_ratio, 20 * size_ratio);
+}
+
+} // namespace iNVOXRecords::gui

@@ -22,20 +22,31 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+#include "juce_audio_processors/juce_audio_processors.h"
+#include "juce_gui_basics/juce_gui_basics.h"
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+using namespace juce;
 
-#include "Utility/UserProperties/UserProperties.h"
+namespace iNVOXRecords::gui {
+//----------------------------------------------------------------------------------------------------------------------
+// iR_KnobLookAndFeel class
+//----------------------------------------------------------------------------------------------------------------------
+class KnobLookAndFeel : public juce::LookAndFeel_V4
+{
+public:
+  // constructor
+  KnobLookAndFeel(const Colour& mainColour = Colour(132, 106, 192));
+
+  // override
+  void drawLabel(Graphics& g, Label& label) override;
+  void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
+  void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
+
+  // setter
+  void setMainColour(const Colour& mainColour) { main_colour = mainColour; }
+
+private:
+  Colour main_colour;
+};
+
+} // namespace iNVOXRecords::gui

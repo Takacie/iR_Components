@@ -20,22 +20,12 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 /*///-------------------------------------------------------------------------------------------------------------------
 
-#pragma once
+#include "ComboBox.h"
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+namespace iNVOXRecords::gui {
+//----------------------------------------------------------------------------------------------------------------------
+// ComboBox implementation
+//----------------------------------------------------------------------------------------------------------------------
+std::unique_ptr<ComboBoxLookAndFeel> ComboBox::lookandfeel = std::make_unique<ComboBoxLookAndFeel>(Colour(132, 106, 192));
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
-
-#include "Utility/UserProperties/UserProperties.h"
+} // namespace iNVOXRecords::gui

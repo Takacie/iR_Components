@@ -20,22 +20,30 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 /*///-------------------------------------------------------------------------------------------------------------------
 
-#pragma once
+#include "UserProperties.h"
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+namespace iNVOXRecords::utility {
+//----------------------------------------------------------------------------------------------------------------------
+// UserProperties implementation
+//----------------------------------------------------------------------------------------------------------------------
+UserProperties::UserProperties(const String& applicationName)
+{
+  // properties file will be stored in C:/Users/{User}/AppData/Roaming/iNVOX Records/{applicationName}.iconf
+  options.applicationName = applicationName;
+  options.folderName = juce::String("iNVOX Records");
+  options.filenameSuffix = juce::String(".irconf");
+  options.osxLibrarySubFolder = juce::String("Application Support");
+  setStorageParameters(options);
+  user_property = getUserSettings();
+}
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+void UserProperties::setScaleProperty(float newScale, bool withSave)
+{
+  if (user_property) {
+    user_property->setValue(StringRef("scale"), newScale);
 
-#include "Utility/UserProperties/UserProperties.h"
+    if (withSave) user_property->save();
+  }
+}
+
+} // namespace iNVOXRecords::utility

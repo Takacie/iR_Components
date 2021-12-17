@@ -22,20 +22,36 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+#include "PresetSelectorComponent.h"
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+namespace iNVOXRecords::gui {
+//----------------------------------------------------------------------------------------------------------------------
+// PresetSelector class
+//----------------------------------------------------------------------------------------------------------------------
+class PresetSelector : public juce::Component
+{
+public:
+  // constructor
+  PresetSelector(APVTS* apvts, UserProperties* userProperties);
 
-#include "Utility/UserProperties/UserProperties.h"
+  ~PresetSelector();
+
+  // setter
+  void setPosition(int x, int y, float scale);
+  void setWidth(int newWidth) { setBounds(0, 0, newWidth, 0); }
+
+  // getter
+  FileListComponent* getFileListComponent() { return list_button.getFileListComponent(); }
+
+private:
+  // lookandfeel
+  PresetSelectorLaF laf;
+
+  APVTS* apvts;
+  UserProperties* user_properties;
+  DirectoryList list;
+  PresetListButton list_button { apvts, &list };
+  PresetMenuButton menu_button { user_properties, apvts, &list };
+};
+
+} // namespace iNVOXRecords::gui

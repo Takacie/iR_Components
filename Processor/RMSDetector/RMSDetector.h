@@ -22,20 +22,39 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "GUI/Knob/Knob.h"
-#include "GUI/Button/Button.h"
-#include "GUI/ComboBox/ComboBox.h"
-#include "GUI/PresetSelector/PresetSelector.h"
-#include "GUI/Header/Header.h"
-#include "GUI/Label/Label.h"
-#include "GUI/TextEditor/TextEditor.h"
-#include "GUI/GridComponent/GridComponent.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
+#include "../CircularBuffer/CircularBuffer.h"
 
-#include "Processor/CircularBuffer/CircularBuffer.h"
-#include "Processor/StereoEnhance/StereoEnhance.h"
-#include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
+namespace iNVOXRecords::processor {
+//----------------------------------------------------------------------------------------------------------------------
+// RMSDetector class
+//----------------------------------------------------------------------------------------------------------------------
+class RMSDetector {
+public:
+  // common method
+  void addSample(float sample)
+  {
+    if (buffer.isFull()) {
+      sum -= buffer[0];
+    }
+    sum += sample * sample;
+    buffer.push(sample * sample);
+  }
 
-#include "Utility/UserProperties/UserProperties.h"
+  // getter
+  float getRMS()
+  {
+    return std::sqrt(sum / buffer.getLength());
+  }
+
+  // setter
+  void setBufferSize(int size)
+  {
+    buffer.setBufferSize(size);
+  }
+
+private:
+  CircularBuffer<float> buffer;
+  float sum = 0.0f;
+};
+
+} // namespace iNVOXRecords::processor

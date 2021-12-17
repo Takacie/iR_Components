@@ -24,19 +24,15 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
+#include "../../Utility/Helper/Helper.h"
 
 using namespace juce;
-
-// aliase
-using APVTS = AudioProcessorValueTreeState;
-using CBC = ComponentBoundsConstrainer;
-
-// constants
-template<class T> constexpr float clamp0To1(T num) { return std::clamp(num, 0.0f, 1.0f); }
+using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::gui {
-
+//----------------------------------------------------------------------------------------------------------------------
 // XYController class
+//----------------------------------------------------------------------------------------------------------------------
 class XYController : public juce::Component
 {
 public:
@@ -119,8 +115,11 @@ protected:
     const int halfW = getWidth() / 2;
     const int x = getParentWidth() * normX - halfW;
 
+
+    #if JUCE_DEBUG
     jassert(x >= 0);
     jassert(x <= getParentWidth());
+    #endif
 
     setTopLeftPosition(x, getY());
   }
@@ -131,8 +130,10 @@ protected:
     const int halfH = getHeight() / 2;
     const int y = getParentHeight() * (1.0f - normY) - halfH;
 
+    #if JUCE_DEBUG
     jassert(y >= 0);
     jassert(y <= getParentHeight());
+    #endif
 
     setTopLeftPosition(getX(), y);
   }

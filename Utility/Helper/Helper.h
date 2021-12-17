@@ -22,45 +22,24 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "ButtonLookAndFeel.h"
-#include "../../Utility/Helper/Helper.h"
-#include "juce_audio_processors/juce_audio_processors.h"
-#include "juce_gui_basics/juce_gui_basics.h"
+#include <cmath>
 
-using namespace juce;
-using namespace iNVOXRecords::utility;
+namespace iNVOXRecords::utility {
 
-namespace iNVOXRecords::gui {
-//----------------------------------------------------------------------------------------------------------------------
-// Button class
-//----------------------------------------------------------------------------------------------------------------------
-using ButtonAttachment = AudioProcessorValueTreeState::ButtonAttachment;
-class Button : public juce::ToggleButton
+// Alias
+using APVTS = AudioProcessorValueTreeState;
+using CBC = ComponentBoundsConstrainer;
+
+// Cast
+template<class T> constexpr float floatCast(T num) { return static_cast<float>(num); }
+
+// Logarithmic Map
+inline float logMap0To1(float denormValue, float min, float max)
 {
-public:
-  // constructor
-  Button(APVTS& apvts, const String& parameterID);
+  return std::log(denormValue / min) / std::log(max / min);
+}
 
-  // override
-  void paint(Graphics& g) override
-  {
-    Button::paint(g);
-    setAlpha(isEnabled() ? 1.0f : 0.5f);
-  }
+// Normalize Clamp
+template<class T> constexpr float clamp0To1(T num) { return std::clamp(num, 0.0f, 1.0f); }
 
-  // getter
-
-  // setter
-  void setPosition(int x, int y, int width, float size_ratio);
-
-  // static
-  static std::unique_ptr<ButtonLookAndFeel> lookandfeel;
-  static void setButtonColor(const Colour& colour) { if (lookandfeel) lookandfeel->setMainColour(colour); }
-
-private:
-  APVTS* apvts;
-  String parameter_id;
-  ButtonAttachment button_attachment;
-};
-
-} // namespace iNVOXRecords::gui
+} // namespace iNVOXRecords::utility

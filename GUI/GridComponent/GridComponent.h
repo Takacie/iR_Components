@@ -22,19 +22,17 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
+#include "../../Utility/Helper/Helper.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
-
-// Note: General-purpose helper methods will be put in a separate file.
-inline float logMap0To1(float denormValue, float min, float max)
-{
-  return std::log(denormValue / min) / std::log(max / min);
-}
+using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::gui {
-
-class GridComponent : public Component
+//----------------------------------------------------------------------------------------------------------------------
+// GridComponent class
+//----------------------------------------------------------------------------------------------------------------------
+class GridComponent : public juce::Component
 {
 public:
   // enum

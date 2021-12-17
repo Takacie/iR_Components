@@ -90,11 +90,17 @@ public:
   // getter
   const APVTS& getAudioProcessorValueTreeState() const noexcept { return apvts; }
 
+  // setter
+  void setControllerRect(const Rectangle<int>& rect) noexcept
+  {
+    controllerRect = rect;
+  }
+
 protected:
   virtual float calcValueParamX() const noexcept
   {
     const float posX = getBounds().getCentre().getX();
-    const float ratioX = posX / getParentWidth();
+    const float ratioX = posX / controllerRect.getWidth();
     const float denormX = rangeX.convertFrom0to1(clamp0To1(ratioX));
 
     return denormX;
@@ -103,7 +109,7 @@ protected:
   virtual float calcValueParamY() const noexcept
   {
     const float posY = getBounds().getCentre().getY();
-    const float ratioY = 1.0f - posY / getParentHeight();
+    const float ratioY = 1.0f - posY / controllerRect.getHeight();
     const float denormY = rangeY.convertFrom0to1(clamp0To1(ratioY));
 
     return denormY;
@@ -113,12 +119,12 @@ protected:
   {
     const float normX = rangeX.convertTo0to1(denormalizedValue);
     const int halfW = getWidth() / 2;
-    const int x = getParentWidth() * normX - halfW;
+    const int x = controllerRect.getWidth() * normX - halfW;
 
 
     #if JUCE_DEBUG
     jassert(x >= 0);
-    jassert(x <= getParentWidth());
+    jassert(x <= controllerRect.getWidth());
     #endif
 
     setTopLeftPosition(x, getY());
@@ -128,11 +134,11 @@ protected:
   {
     const float normY = rangeY.convertTo0to1(denormalizedValue);
     const int halfH = getHeight() / 2;
-    const int y = getParentHeight() * (1.0f - normY) - halfH;
+    const int y = controllerRect.getHeight() * (1.0f - normY) - halfH;
 
     #if JUCE_DEBUG
     jassert(y >= 0);
-    jassert(y <= getParentHeight());
+    jassert(y <= controllerRect.getHeight());
     #endif
 
     setTopLeftPosition(getX(), y);
@@ -141,6 +147,8 @@ protected:
 private:
   // member
   const APVTS& apvts;
+
+  Rectangle<int>& controllerRect {};
 
   RangedAudioParameter& paramX;
   RangedAudioParameter& paramY;

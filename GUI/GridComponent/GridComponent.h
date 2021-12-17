@@ -22,11 +22,9 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "../../Utility/Helper/Helper.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
-using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
@@ -54,10 +52,10 @@ public:
   GridComponent(const float& scale)
     : scale(scale)
   {
-    setColour(backgroundColourId, Colours::grey);
-    setColour(mainViewColourId, Colours::white);
-    setColour(textColourId, Colours::white);
-    setColour(lineColourId, Colours::black);
+    setColour(backgroundColourId, Colour(10, 10, 15));
+    setColour(mainViewColourId, Colour(20, 20, 25));
+    setColour(textColourId, Colour(180, 180, 185));
+    setColour(lineColourId, Colour(60, 60, 65));
   }
 
   // override
@@ -159,14 +157,13 @@ private:
     const int top = mainViewRect.getY();
     const int bottom = mainViewRect.getBottom();
     const Colour lineColour = findColour(lineColourId);
+    const Colour textColour = findColour(textColourId);
     const Font textFont { 10 * scale };
     const int textW = 30 * scale;
     const int textH = 10 * scale;
+    const int textTopOffset = 2.0f * scale;
 
-    g.setColour(lineColour);
     g.setFont(textFont);
-    g.drawVerticalLine(mainViewRect.getX(), top, bottom);
-    g.drawVerticalLine(mainViewRect.getRight(), top, bottom);
 
     for (auto&& s : scalesX) {
       #if JUCE_DEBUG
@@ -176,7 +173,7 @@ private:
       #endif
 
       const float ratio = useLogScaleOnXAxis ?
-        logMap0To1(s, minValueX, maxValueX) :
+        mapFromLog10(s, minValueX, maxValueX) :
         (s - minValueX) / (maxValueX - minValueX);
       const int x = mainViewRect.getX() + mainViewRect.getWidth() * ratio;
       String text { s };
@@ -185,9 +182,14 @@ private:
         text = valueToTextX(s);
       }
 
-      g.drawFittedText(text, x, bottom, textW, textH, Justification::left, 1);
+      g.setColour(textColour);
+      g.drawFittedText(text, x, bottom + textTopOffset, textW, textH, Justification::left, 1);
+      g.setColour(lineColour);
       g.drawVerticalLine(x, top, bottom);
     }
+
+    g.drawVerticalLine(mainViewRect.getX(), top, bottom);
+    g.drawVerticalLine(mainViewRect.getRight(), top, bottom);
   }
 
   void drawGridY(Graphics& g)
@@ -197,15 +199,13 @@ private:
     const int left = mainViewRect.getX();
     const int right = mainViewRect.getRight();
     const Colour lineColour = findColour(lineColourId);
+    const Colour textColour = findColour(textColourId);
     const Font textFont { 10 * scale };
     const int textH = textFont.getHeight();
     const int textW = mainViewRect.getX() - getLocalBounds().getX();
-    const int textRightOffset = 1.5f * scale;
+    const int textRightOffset = 3.0f * scale;
 
-    g.setColour(lineColour);
     g.setFont(textFont);
-    g.drawHorizontalLine(mainViewRect.getY(), left, right);
-    g.drawHorizontalLine(mainViewRect.getBottom(), left, right);
 
     for (auto&& s : scalesY) {
       #if JUCE_DEBUG
@@ -215,7 +215,7 @@ private:
       #endif
 
       const float ratio = useLogScaleOnYAxis ? 
-        logMap0To1(s, minValueY, maxValueY) :
+        mapFromLog10(s, minValueY, maxValueY) :
         (maxValueY - s) / (maxValueY - minValueY);
       const int y = mainViewRect.getY() + mainViewRect.getHeight() * ratio;
       const int textY = y - textH / 2;
@@ -225,9 +225,14 @@ private:
         text = valueToTextY(s);
       }
 
+      g.setColour(textColour);
       g.drawFittedText(text, 0, textY, textW - textRightOffset, textH, Justification::right, 1);
+      g.setColour(lineColour);
       g.drawHorizontalLine(y, left, right);
     }
+
+    g.drawHorizontalLine(mainViewRect.getY(), left, right);
+    g.drawHorizontalLine(mainViewRect.getBottom(), left, right);
   }
 };
 

@@ -37,12 +37,6 @@ using CBC = ComponentBoundsConstrainer;
 // Cast
 template<class T> constexpr float floatCast(T num) { return static_cast<float>(num); }
 
-// Logarithmic Map
-inline float logMap0To1(float denormValue, float min, float max)
-{
-  return std::log(denormValue / min) / std::log(max / min);
-}
-
 // Normalize Clamp
 template<class T> constexpr float clamp0To1(T num) { return std::clamp(num, 0.0f, 1.0f); }
 

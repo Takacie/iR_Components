@@ -28,19 +28,19 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 std::unique_ptr<ButtonLookAndFeel> Button::lookandfeel = std::make_unique<ButtonLookAndFeel>(Colour(132, 106, 192));
 
-Button::Button(APVTS& apvts, const String& parameterID) :
+Button::Button(APVTS& apvts, const String& parameterId) :
   apvts(&apvts),
-  parameter_id(parameterID),
-  button_attachment(ButtonAttachment(apvts, parameterID, *this))
+  parameterId(parameterId),
+  attachment(ButtonAttachment(apvts, parameterId, *this))
 {
   setLookAndFeel(lookandfeel.get());
-  auto text = apvts.getParameter(parameterID)->getName(16);
+  auto text = apvts.getParameter(parameterId)->getName(16);
   setButtonText(text);
 }
 
-void Button::setPosition(int x, int y, int width, float size_ratio)
+void Button::setPosition(int x, int y, int width, float scale)
 {
-  setBounds(x * size_ratio, y * size_ratio, width * size_ratio, 20 * size_ratio);
+  setBounds(x * scale, y * scale, width * scale, 20 * scale);
 }
 
 } // namespace iNVOXRecords::gui

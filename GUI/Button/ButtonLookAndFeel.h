@@ -35,20 +35,20 @@ class ButtonLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
   // constructor
-  ButtonLookAndFeel(const juce::Colour& main_colour);
+  ButtonLookAndFeel(const juce::Colour& mainColour);
 
   // override
   void drawToggleButton(Graphics& g, ToggleButton& button,
-                        bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
-  void drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h, 
-                   const bool ticked, const bool isEnabled, const bool shouldDrawButtonAsHighlighted,
-                   const bool shouldDrawButtonAsDown) override;
+    bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
+  void drawTickBox(Graphics& g, Component& component, float x, float y, float w, float h,
+    const bool ticked, const bool isEnabled, const bool shouldDrawButtonAsHighlighted,
+    const bool shouldDrawButtonAsDown) override;
 
   // setter
-  void setMainColour(const Colour& mainColour) { main_colour = mainColour; }
+  void setMainColour(const Colour& colour) { mainColour = colour; }
 
 private:
-  Colour main_colour;
+  Colour mainColour;
 };
 
 } // namespace iNVOXRecords::gui

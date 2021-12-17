@@ -26,8 +26,8 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // ButtonLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
-ComboBoxLookAndFeel::ComboBoxLookAndFeel(const juce::Colour& main_colour) :
-  main_colour(main_colour)
+ComboBoxLookAndFeel::ComboBoxLookAndFeel(const juce::Colour& mainColour) :
+  mainColour(mainColour)
 {}
 
 

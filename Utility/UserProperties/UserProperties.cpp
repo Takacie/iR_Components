@@ -34,15 +34,15 @@ UserProperties::UserProperties(const String& applicationName)
   options.filenameSuffix = juce::String(".irconf");
   options.osxLibrarySubFolder = juce::String("Application Support");
   setStorageParameters(options);
-  user_property = getUserSettings();
+  userProperty = getUserSettings();
 }
 
 void UserProperties::setScaleProperty(float newScale, bool withSave)
 {
-  if (user_property) {
-    user_property->setValue(StringRef("scale"), newScale);
+  if (userProperty) {
+    userProperty->setValue(StringRef("scale"), newScale);
 
-    if (withSave) user_property->save();
+    if (withSave) userProperty->save();
   }
 }
 

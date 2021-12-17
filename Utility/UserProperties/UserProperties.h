@@ -43,7 +43,7 @@ public:
   void setScaleProperty(float newScale, bool withSave = false);
 
 private:
-  PropertiesFile* user_property;
+  PropertiesFile* userProperty;
   PropertiesFile::Options options;
 };
 

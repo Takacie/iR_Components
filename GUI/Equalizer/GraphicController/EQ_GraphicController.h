@@ -88,7 +88,7 @@ public:
 
   // getter
   float getCurrentScale() const { return current_scale; }
-  DL getDecibelLimit() const { return decibel_limit; }
+  DL getDecibelLimit() const { return decibelLimit; }
 
   // setter
   void setPosition(int x, int y, float scale);
@@ -98,7 +98,7 @@ private:
   EqProcessor& processor;
   const int init_width, init_height;
   float current_scale = 1.0f;
-  DL decibel_limit = DL::k12dB;
+  DL decibelLimit = DL::k12dB;
 
   EqHandlePtr lpf;
   EqHandlePtr hpf;
@@ -126,7 +126,7 @@ private:
     g.setFont(Font(text_h));
 
     int num = 0;
-    switch (decibel_limit)
+    switch (decibelLimit)
     {
     case DL::k6dB:
       decibelText(0, 6);

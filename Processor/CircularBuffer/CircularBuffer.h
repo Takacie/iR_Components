@@ -33,7 +33,8 @@ namespace iNVOXRecords::processor {
 // CircularBuffer class
 //----------------------------------------------------------------------------------------------------------------------
 template <class T>
-class CircularBuffer {
+class CircularBuffer
+{
 public:
   // constructor
   CircularBuffer() noexcept {}
@@ -44,35 +45,39 @@ public:
   // common method
   void clear()
   {
-    length = read_point = write_point = 0;
+    length = readPoint = writePoint = 0;
     buffer.clear(static_cast<size_t>(capacity));
   }
 
   void push(const T& data)
   {
     forward();
-    if (buffer_size > length && !isFull()) length++;
-    buffer[write_point] = data;
-    write_point = normIndex(write_point + 1);
+    if (bufferSize > length && !isFull()) length++;
+    buffer[writePoint] = data;
+    writePoint = normIndex(writePoint + 1);
   }
 
   T& getFront(uint32 index)
   {
-    jassert(index < buffer_size);
+    #if JUCE_DEBUG
+    jassert(index < bufferSize);
+    #endif
 
-    return buffer.get()[normIndex(read_point + index)];
+    return buffer.get()[normIndex(readPoint + index)];
   }
 
   T& getBack(uint32 index)
   {
-    jassert(index < buffer_size);
+    #if JUCE_DEBUG
+    jassert(index < bufferSize);
+    #endif
 
-    return buffer.get()[normIndex(read_point + length - index - 1)];
+    return buffer.get()[normIndex(readPoint + length - index - 1)];
   }
 
   bool isFull()
-  { 
-    return buffer_size == length;
+  {
+    return bufferSize == length;
   }
 
   bool isEmpty()
@@ -83,7 +88,7 @@ public:
   // getter
   uint32 getBufferSize()
   {
-    return buffer_size;
+    return bufferSize;
   }
 
   uint32 getLength()
@@ -92,28 +97,29 @@ public:
   }
 
   // setter
-  void setBufferSize(uint32 size) {
+  void setBufferSize(uint32 size)
+  {
     capacity = nextPowerOfTwo(size);
     buffer.malloc(capacity);
-    buffer_size = size;
+    bufferSize = size;
     clear();
   }
 
 private:
   HeapBlock<T> buffer;
   uint32 capacity = 0;
-  uint32 buffer_size = 0;
+  uint32 bufferSize = 0;
   uint32 length = 0;
-  uint32 read_point = 0;
-  uint32 write_point = 0;
+  uint32 readPoint = 0;
+  uint32 writePoint = 0;
 
   // helper
   uint32 normIndex(uint32 index) { return index & (capacity - 1); }
 
-  void forward() 
-  { 
-    if (length == buffer_size) {
-      read_point = normIndex(read_point + 1);
+  void forward()
+  {
+    if (length == bufferSize) {
+      readPoint = normIndex(readPoint + 1);
     }
   }
 };

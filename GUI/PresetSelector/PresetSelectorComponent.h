@@ -68,10 +68,10 @@ public:
   void inputAttemptWhenModal() override;
 
   // getter
-  String getPresetName() const { return preset_name; }
+  String getPresetName() const { return presetName; }
 
 private:
-  String preset_name = "(default)";
+  String presetName = "(default)";
   APVTS* apvts;
 };
 
@@ -82,21 +82,21 @@ class PresetMenuButton : public juce::Button
 {
 public:
   // constructor
-  PresetMenuButton(UserProperties* user_properties, APVTS* apvts, DirectoryList* dirList);
+  PresetMenuButton(UserProperties* userProperties, APVTS* apvts, DirectoryList* dirList);
 
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
   void mouseDown(const MouseEvent& event) override;
 
   // getter
-  PopupMenu* getPopupMenu() { return &popup_menu; }
+  PopupMenu* getPopupMenu() { return &popupMenu; }
 
 private:
-  PopupMenu popup_menu;
-  UserProperties* user_properties;
+  PopupMenu popupMenu;
+  UserProperties* userProperties;
   APVTS* apvts;
   DirectoryList* dirList;
-  std::unique_ptr<FileChooser> file_chooser;
+  std::unique_ptr<FileChooser> fileChooser;
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -106,14 +106,14 @@ class PresetListButton : public juce::Button
 {
 public:
   // constructor
-  PresetListButton(APVTS* apvts, DirectoryList* dir_list);
+  PresetListButton(APVTS* apvts, DirectoryList* dirList);
 
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
   void mouseDown(const MouseEvent& event) override;
 
   // getter
-  FileListComponent* getFileListComponent() { return file_list_component.get(); }
+  FileListComponent* getFileListComponent() { return fileListComponent.get(); }
 
   // setter
   void setPosition(Rectangle<int>& rect) { setBounds(rect); }
@@ -121,7 +121,7 @@ public:
 private:
   APVTS* apvts;
   DirectoryList* dirList;
-  std::unique_ptr<FileListComponent> file_list_component
+  std::unique_ptr<FileListComponent> fileListComponent
   { std::make_unique<FileListComponent>(*dirList->getDirectoryContentsList(), apvts) };
 };
 

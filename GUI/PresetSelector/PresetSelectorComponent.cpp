@@ -51,11 +51,11 @@ void FileListComponent::fileDoubleClicked(const File& file)
 {
   if (file.getFullPathName().isNotEmpty()) {
     setVisible(false);
-    auto preset_xml = parseXML(file);
-    if (preset_xml->hasAttribute("PluginName") && preset_xml->getStringAttribute("PluginName") == PROJECT_NAME) {
-      auto preset_tree = ValueTree::fromXml(*preset_xml);
+    auto presetXml = parseXML(file);
+    if (presetXml->hasAttribute("PluginName") && presetXml->getStringAttribute("PluginName") == PROJECT_NAME) {
+      auto preset_tree = ValueTree::fromXml(*presetXml);
       apvts->replaceState(preset_tree);
-      preset_name = file.getFileNameWithoutExtension();
+      presetName = file.getFileNameWithoutExtension();
     }
     else {
       getLookAndFeel().playAlertSound();
@@ -71,23 +71,23 @@ void FileListComponent::inputAttemptWhenModal()
 //----------------------------------------------------------------------------------------------------------------------
 // PresetMenuButton implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetMenuButton::PresetMenuButton(UserProperties* user_properties, APVTS* apvts, DirectoryList* dirList) :
+PresetMenuButton::PresetMenuButton(UserProperties* userProperties, APVTS* apvts, DirectoryList* dirList) :
   Button("PresetMenuButton"),
-  user_properties(user_properties),
+  userProperties(userProperties),
   apvts(apvts),
   dirList(dirList)
 {
   File initial_location = File();
-  if (user_properties->getUserSettings()->getValue("preset_dir").isNotEmpty()) {
-    initial_location = File::File(user_properties->getUserSettings()->getValue("preset_dir"));
-  }
+  if (userProperties->getUserSettings()->getValue("preset_dir").isNotEmpty())
+    initial_location = File::File(userProperties->getUserSettings()->getValue("preset_dir"));
+
   dirList->getDirectoryContentsList()->setDirectory(initial_location, false, true);
-  file_chooser = std::make_unique<FileChooser>("Select the location where you want to save the presets.",
+  fileChooser = std::make_unique<FileChooser>("Select the location where you want to save the presets.",
                                                initial_location, "*.irps", true, false, this);
 
-  popup_menu.addItem(1, "Save preset");
-  popup_menu.addItem(2, "Change directory");
-  popup_menu.addItem(3, "Refresh");
+  popupMenu.addItem(1, "Save preset");
+  popupMenu.addItem(2, "Change directory");
+  popupMenu.addItem(3, "Refresh");
 }
 
 void PresetMenuButton::paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
@@ -120,7 +120,7 @@ void PresetMenuButton::mouseDown(const MouseEvent& event)
 {
   Button::mouseDown(event);
   auto click_position = event.getPosition();
-  popup_menu.showMenuAsync(PopupMenu::Options()
+  popupMenu.showMenuAsync(PopupMenu::Options()
     .withPreferredPopupDirection(PopupMenu::Options::PopupDirection::downwards)
     .withTargetComponent(this)
     .withMinimumWidth(getWidth() * 3.f)
@@ -131,22 +131,22 @@ void PresetMenuButton::mouseDown(const MouseEvent& event)
       {
       case 1:
         flag = FileBrowserComponent::FileChooserFlags::saveMode;
-        file_chooser->launchAsync(flag, [&](const FileChooser& chooser) {
+        fileChooser->launchAsync(flag, [&](const FileChooser& chooser) {
           File save_file = chooser.getResult();
           if (save_file.getFullPathName().isNotEmpty()) {
-            std::unique_ptr<XmlElement> preset_xml = apvts->copyState().createXml();
-            preset_xml->setAttribute("PluginName", PROJECT_NAME);
-            preset_xml->writeTo(chooser.getResult());
+            std::unique_ptr<XmlElement> presetXml = apvts->copyState().createXml();
+            presetXml->setAttribute("PluginName", PROJECT_NAME);
+            presetXml->writeTo(chooser.getResult());
           }
           });
         break;
       case 2:
         flag = FileBrowserComponent::FileChooserFlags::openMode
           | FileBrowserComponent::FileChooserFlags::canSelectDirectories;
-        file_chooser->launchAsync(flag, [&](const FileChooser& chooser) {
+        fileChooser->launchAsync(flag, [&](const FileChooser& chooser) {
           File new_dir = chooser.getResult();
           if (new_dir.exists()) {
-            user_properties->getUserSettings()->setValue("preset_dir", new_dir.getFullPathName());
+            userProperties->getUserSettings()->setValue("preset_dir", new_dir.getFullPathName());
           }
           });
         break;
@@ -167,7 +167,7 @@ PresetListButton::PresetListButton(APVTS* apvts, DirectoryList* dirList) :
   apvts(apvts),
   dirList(dirList)
 {
-  file_list_component->setVisible(false);
+  fileListComponent->setVisible(false);
 }
 
 void PresetListButton::paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
@@ -190,15 +190,15 @@ void PresetListButton::paintButton(Graphics& g, bool shouldDrawButtonAsHighlight
   g.setFont(Font(getHeight() * 0.6f, Font::plain));
   g.setColour(Colours::white);
   const Rectangle<int> text_rect(x + r / 2, y, w, h);
-  g.drawText(file_list_component->getPresetName(), text_rect, Justification::centred);
+  g.drawText(fileListComponent->getPresetName(), text_rect, Justification::centred);
 }
 
 void PresetListButton::mouseDown(const MouseEvent& event)
 {
   Button::mouseDown(event);
-  file_list_component->updateContent();
-  file_list_component->setVisible(!file_list_component->isVisible());
-  file_list_component->enterModalState();
+  fileListComponent->updateContent();
+  fileListComponent->setVisible(!fileListComponent->isVisible());
+  fileListComponent->enterModalState();
 }
 
 } // namespace iNVOXRecords::gui

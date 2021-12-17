@@ -39,14 +39,12 @@ public:
     const String& fileSizeDescription, const String& fileTimeDescription, bool isDirectory,
     bool isItemSelected, int itemIndex, DirectoryContentsDisplayComponent& dcc) override
   {
-    if (isItemSelected) {
+    if (isItemSelected)
       g.fillAll(Colour(70, 70, 75));
-    }
 
-    const auto scale_basis = height;
-    const auto x = scale_basis * 0.25f;
+    const auto x = height * 0.25f;
     g.setColour(Colours::white);
-    g.setFont(scale_basis * 0.7f);
+    g.setFont(height * 0.7f);
 
     const auto text = filename.replace(".irps", "");
     g.drawFittedText(text, x, 0, width - x, height, Justification::centredLeft, 1);
@@ -76,9 +74,9 @@ public:
   void drawPopupMenuBackground(Graphics& g, int width, int height) override
   {
     g.fillAll(Colour(50, 50, 55));
-    Rectangle<float> menu_rect(0, 0, width, height);
+    Rectangle<int> menuRect { 0, 0, width, height };
     g.setColour(Colour(200, 200, 205));
-    g.drawRect(menu_rect);
+    g.drawRect(menuRect);
   }
 };
 

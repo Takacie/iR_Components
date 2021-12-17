@@ -28,7 +28,7 @@ namespace iNVOXRecords::gui {
 // KnobLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
 KnobLookAndFeel::KnobLookAndFeel(const Colour& mainColour) :
-  main_colour(mainColour)
+  mainColour(mainColour)
 {}
 
 void KnobLookAndFeel::drawLabel(Graphics& g, Label& label)
@@ -40,15 +40,15 @@ void KnobLookAndFeel::drawLabel(Graphics& g, Label& label)
   if (!label.isBeingEdited())
   {
     auto alpha = label.isEnabled() ? 1.0f : 0.5f;
-    const Font font(label.getHeight() * 0.7f, Font::plain);
+    const Font font { label.getHeight() * 0.7f };
 
     g.setColour(label.findColour(Label::textColourId).withMultipliedAlpha(alpha));
     g.setFont(font);
 
-    auto text_rect = getLabelBorderSize(label).subtractedFrom(label.getLocalBounds());
+    auto textRect = getLabelBorderSize(label).subtractedFrom(label.getLocalBounds());
 
-    g.drawFittedText(label.getText(), text_rect, label.getJustificationType(),
-      jmax(1, (int)((float)text_rect.getHeight() / font.getHeight())),
+    g.drawFittedText(label.getText(), textRect, label.getJustificationType(),
+      jmax(1, (int)((float)textRect.getHeight() / font.getHeight())),
       label.getMinimumHorizontalScale());
   }
 }

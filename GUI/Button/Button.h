@@ -39,7 +39,7 @@ class Button : public juce::ToggleButton
 {
 public:
   // constructor
-  Button(APVTS& apvts, const String& parameterID);
+  Button(APVTS& apvts, const String& parameterId);
 
   // override
   void paint(Graphics& g) override
@@ -51,7 +51,7 @@ public:
   // getter
 
   // setter
-  void setPosition(int x, int y, int width, float size_ratio);
+  void setPosition(int x, int y, int width, float scale);
 
   // static
   static std::unique_ptr<ButtonLookAndFeel> lookandfeel;
@@ -59,8 +59,8 @@ public:
 
 private:
   APVTS* apvts;
-  String parameter_id;
-  ButtonAttachment button_attachment;
+  String parameterId;
+  ButtonAttachment attachment;
 };
 
 } // namespace iNVOXRecords::gui

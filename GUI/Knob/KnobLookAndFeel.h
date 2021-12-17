@@ -38,15 +38,15 @@ public:
   KnobLookAndFeel(const Colour& mainColour = Colour(132, 106, 192));
 
   // override
-  void drawLabel(Graphics& g, Label& label) override;
-  void fillTextEditorBackground(Graphics& g, int width, int height, TextEditor& textEditor) override;
-  void drawTextEditorOutline(Graphics&, int width, int height, TextEditor&) override {}
+  void drawLabel(Graphics& g, juce::Label& label) override;
+  void fillTextEditorBackground(Graphics& g, int width, int height, juce::TextEditor& textEditor) override;
+  void drawTextEditorOutline(Graphics&, int width, int height, juce::TextEditor&) override {}
 
   // setter
-  void setMainColour(const Colour& mainColour) { main_colour = mainColour; }
+  void setMainColour(const Colour& colour) { mainColour = colour; }
 
 private:
-  Colour main_colour;
+  Colour mainColour;
 };
 
 } // namespace iNVOXRecords::gui

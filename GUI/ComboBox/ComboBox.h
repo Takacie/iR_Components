@@ -23,35 +23,36 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 
 #include "ComboBoxLookAndFeel.h"
+#include "../../Utility/Helper/Helper.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
+using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // ComboBox class
 //----------------------------------------------------------------------------------------------------------------------
-using APVTS = AudioProcessorValueTreeState;
 class ComboBox : public juce::ComboBox
 {
 public:
   // constructor
-  ComboBox(APVTS& apvts, const String& parameterID, const StringArray& items, int default_index = 0) :
+  ComboBox(APVTS& apvts, const String& parameterId, const StringArray& items, int default_index = 0) :
     apvts(&apvts),
-    parameter_id(parameterID),
-    attachment(*apvts.getParameter(parameterID), *this)
+    parameterId(parameterId),
+    attachment(*apvts.getParameter(parameterId), *this)
   {
     setLookAndFeel(lookandfeel.get());
     getRootMenu()->setLookAndFeel(lookandfeel.get());
     addItemList(items, 1);
     setSelectedItemIndex(default_index);
 
-    String text = apvts.getParameter(parameterID)->getName(16);
-    title_label.setFont(Font(16, Font::plain));
-    title_label.setText(text, dontSendNotification);
-    title_label.setJustificationType(Justification::centred);
-    addAndMakeVisible(title_label);
+    String text = apvts.getParameter(parameterId)->getName(16);
+    titleLabel.setFont(Font(16, Font::plain));
+    titleLabel.setText(text, dontSendNotification);
+    titleLabel.setJustificationType(Justification::centred);
+    addAndMakeVisible(titleLabel);
   }
 
   // override
@@ -71,8 +72,10 @@ public:
       .withStandardItemHeight(getHeight() * 0.25f),
       [&](int choice) {
         hidePopup();
-        if (choice != 0) setSelectedId(choice);
-    });
+        if (choice != 0)
+          setSelectedId(choice);
+      }
+    );
   }
 
   // getter
@@ -81,8 +84,8 @@ public:
   void setPosition(int x, int y, float scale)
   {
     setBounds(x * scale, y * scale, 100 * scale, 110 * scale);
-    title_label.setBounds(0, 87.5f * scale, 100 * scale, 20 * scale);
-    title_label.setFont(Font(16 * scale, Font::plain));
+    titleLabel.setBounds(0, 87.5f * scale, 100 * scale, 20 * scale);
+    titleLabel.setFont(Font(16 * scale, Font::plain));
   }
 
   // static
@@ -91,8 +94,8 @@ public:
 
 private:
   APVTS* apvts;
-  String parameter_id;
-  Label title_label;
+  String parameterId;
+  juce::Label titleLabel;
   ComboBoxParameterAttachment attachment;
 };
 

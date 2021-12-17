@@ -20,21 +20,24 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 /*///-------------------------------------------------------------------------------------------------------------------
 
+#include "../../Utility/Helper/Helper.h"
 #include "ButtonLookAndFeel.h"
+
+using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // ButtonLookAndFeel implementation
 //----------------------------------------------------------------------------------------------------------------------
-ButtonLookAndFeel::ButtonLookAndFeel(const juce::Colour& main_colour) :
-  main_colour(main_colour)
+ButtonLookAndFeel::ButtonLookAndFeel(const juce::Colour& mainColour) :
+  mainColour(mainColour)
 {}
 
 void ButtonLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
-  const auto size = button.getHeight();
-  const Font font(size, Font::plain);
+  const int size = button.getHeight();
+  const Font font { floatCast(size) };
 
   drawTickBox(g, button, size * 0.2f, 0,
     size, size,
@@ -61,11 +64,11 @@ void ButtonLookAndFeel::drawTickBox(Graphics& g, Component& component,
 {
   ignoreUnused(isEnabled, shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
 
-  Rectangle<float> tickBounds(x, y, w, h);
+  Rectangle<float> tickBounds { x, y, w, h };
   tickBounds.reduce(h * 0.1f, h * 0.1f);
 
   if (ticked) {
-    g.setColour(main_colour);
+    g.setColour(mainColour);
     g.fillRoundedRectangle(tickBounds, h * 0.3f);
   }
 

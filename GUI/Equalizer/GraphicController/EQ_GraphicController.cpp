@@ -68,7 +68,7 @@ void EqGraphicController::paint(Graphics& g)
     auto setMinMax = [&min, &max](float newMin, float newMax) {
       min = newMin; max = newMax;
     };
-    switch (decibel_limit)
+    switch (decibelLimit)
     {
     case DL::k6dB:  setMinMax(-6.0f, 6.0f);  break;
     case DL::k12dB: setMinMax(-12.0f, 12.0f); break;

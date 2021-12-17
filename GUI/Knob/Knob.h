@@ -43,7 +43,7 @@ public:
   enum class KnobStartPos { StartLeft, StartCenter, StartRight };
 
   // constructor
-  Knob(APVTS& apvts, const String& parameterID, const float& scale);
+  Knob(APVTS& apvts, const String& parameterId, const float& scale);
   
   // override
   void paint(Graphics& g) override;

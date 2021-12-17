@@ -38,9 +38,9 @@ public:
   // constructor
   Header(juce::AudioProcessorEditor& parent, APVTS* apvts, UserProperties* userProperties) :
     apvts(apvts),
-    user_properties(userProperties)
+    userProperties(userProperties)
   {
-    selector.setWidth(selector_width);
+    selector.setWidth(selectorWidth);
     addAndMakeVisible(selector);
     parent.addAndMakeVisible(this);
     parent.addChildComponent(selector.getFileListComponent());
@@ -54,49 +54,49 @@ public:
     const auto h = getHeight();
 
     g.fillAll(Colour(5, 5, 10));
-    g.setColour(main_colour);
-    
-    auto line_w = h * 0.025f;
-    g.drawRect(b.withLeft(-line_w).withTop(-line_w).withRight(w + line_w), line_w);
+    g.setColour(mainColour);
 
-    g.setColour(main_colour);
+    auto lineW = h * 0.025f;
+    g.drawRect(b.withLeft(-lineW).withTop(-lineW).withRight(w + lineW), lineW);
+
+    g.setColour(mainColour);
     g.setFont(getCustomFont().withHeight(h * 0.85f));
 
-    auto text_rect = b.reduced(w * 0.02f, 0).withTop(-h * 0.05f);
-    g.drawText(title, text_rect, Justification::centredLeft);
+    auto textRect = b.reduced(w * 0.02f, 0).withTop(-h * 0.05f);
+    g.drawText(title, textRect, Justification::centredLeft);
   }
 
   // setter
   void setPosition(int init_width, float scale)
   {
     setBounds(0, 0, getParentComponent()->getWidth(), 60 * scale);
-    selector.setWidth(selector_width * scale);
-    selector.setPosition(init_width - selector_width - 15, 15, scale);
+    selector.setWidth(selectorWidth * scale);
+    selector.setPosition(init_width - selectorWidth - 15, 15, scale);
   }
 
   void setTitle(const String& newTitle) { title = newTitle; }
 
-  void setMainColour(Colour newMainColour) { main_colour = newMainColour; }
+  void setMainColour(Colour newMainColour) { mainColour = newMainColour; }
 
-  void setSelectorWidth(int newWidth) { selector_width = newWidth; }
+  void setSelectorWidth(int newWidth) { selectorWidth = newWidth; }
 
   // static
   static const Font getCustomFont()
   {
-    static auto typeface = Typeface::createSystemTypefaceFor(HeaderFont::ComfortaaRegular_ttf, 
-                                                             HeaderFont::ComfortaaRegular_ttfSize);
+    static auto typeface = Typeface::createSystemTypefaceFor(HeaderFont::ComfortaaRegular_ttf,
+      HeaderFont::ComfortaaRegular_ttfSize);
     return Font(typeface);
   }
 
 private:
   APVTS* apvts;
-  UserProperties* user_properties;
+  UserProperties* userProperties;
 
   String title = "Header";
-  Colour main_colour = Colour(132, 192, 106);
-  int selector_width = 220;
+  Colour mainColour = Colour(132, 192, 106);
+  int selectorWidth = 220;
 
-  PresetSelector selector { apvts, user_properties };
+  PresetSelector selector { apvts, userProperties };
 };
 
 } // namespace iNVOXRecords::gui

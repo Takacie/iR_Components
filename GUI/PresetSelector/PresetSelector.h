@@ -41,17 +41,17 @@ public:
   void setWidth(int newWidth) { setBounds(0, 0, newWidth, 0); }
 
   // getter
-  FileListComponent* getFileListComponent() { return list_button.getFileListComponent(); }
+  FileListComponent* getFileListComponent() { return listButton.getFileListComponent(); }
 
 private:
   // lookandfeel
   PresetSelectorLaF laf;
 
   APVTS* apvts;
-  UserProperties* user_properties;
+  UserProperties* userProperties;
   DirectoryList list;
-  PresetListButton list_button { apvts, &list };
-  PresetMenuButton menu_button { user_properties, apvts, &list };
+  PresetListButton listButton { apvts, &list };
+  PresetMenuButton menuButton { userProperties, apvts, &list };
 };
 
 } // namespace iNVOXRecords::gui

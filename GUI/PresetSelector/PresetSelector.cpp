@@ -28,22 +28,22 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 PresetSelector::PresetSelector(APVTS* apvts, UserProperties* userProperties) :
   apvts(apvts),
-  user_properties(userProperties)
+  userProperties(userProperties)
 {
-  addAndMakeVisible(list_button);
-  addAndMakeVisible(menu_button);
+  addAndMakeVisible(listButton);
+  addAndMakeVisible(menuButton);
 
   setLookAndFeel(&laf);
-  list_button.getFileListComponent()->setLookAndFeel(&laf);
-  menu_button.getPopupMenu()->setLookAndFeel(&laf);
-  list_button.getFileListComponent()->setVisible(false);
+  listButton.getFileListComponent()->setLookAndFeel(&laf);
+  menuButton.getPopupMenu()->setLookAndFeel(&laf);
+  listButton.getFileListComponent()->setVisible(false);
 }
 
 PresetSelector::~PresetSelector()
 {
   setLookAndFeel(nullptr);
-  list_button.getFileListComponent()->setLookAndFeel(nullptr);
-  menu_button.getPopupMenu()->setLookAndFeel(nullptr);
+  listButton.getFileListComponent()->setLookAndFeel(nullptr);
+  menuButton.getPopupMenu()->setLookAndFeel(nullptr);
 }
 
 // setter
@@ -52,17 +52,17 @@ void PresetSelector::setPosition(int x, int y, float scale)
   x *= scale;
   y *= scale;
   const auto w = getWidth();       // entire width
-  const auto lb_w = w * 0.8f;      // list_button width
-  const auto mb_w = w * 0.2f;      // menu_button width
+  const auto lbW = w * 0.8f;      // listButton width
+  const auto mbW = w * 0.2f;      // menuButton width
   const auto h = 30 * scale;       // entire height
-  const auto brow_h = 150 * scale; // file_browser height
-  const auto row_h = 25 * scale;   // row height
+  const auto browH = 150 * scale; // file_browser height
+  const auto rowH = 25 * scale;   // row height
 
   setBounds(x, y, w, h);
-  list_button.setBounds(0, 0, lb_w, h);
-  list_button.getFileListComponent()->setBounds(x, y + h, w, brow_h);
-  list_button.getFileListComponent()->setRowHeight(row_h);
-  menu_button.setBounds(lb_w, 0, mb_w, h);
+  listButton.setBounds(0, 0, lbW, h);
+  listButton.getFileListComponent()->setBounds(x, y + h, w, browH);
+  listButton.getFileListComponent()->setRowHeight(rowH);
+  menuButton.setBounds(lbW, 0, mbW, h);
 }
 
 } // namespace iNVOXRecords::gui

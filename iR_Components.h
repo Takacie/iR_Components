@@ -30,6 +30,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include "GUI/Label/Label.h"
 #include "GUI/TextEditor/TextEditor.h"
 #include "GUI/GridComponent/GridComponent.h"
+#include "GUI/XYController/XYController.h"
 #include "GUI/Equalizer/Handle/EQ_Handle.h"
 #include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
 

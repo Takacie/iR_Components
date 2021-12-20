@@ -23,6 +23,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma once
 
 #include "KnobLookAndFeel.h"
+#include "../ResizeInterface/ResizeInterface.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
@@ -36,7 +37,7 @@ using KnobAttachment = AudioProcessorValueTreeState::SliderAttachment;
 //----------------------------------------------------------------------------------------------------------------------
 // Knob class
 //----------------------------------------------------------------------------------------------------------------------
-class Knob : public juce::Component
+class Knob : public juce::Component, public ResizeInterface
 {
 public:
   // enums
@@ -52,11 +53,11 @@ public:
   void mouseDrag(const MouseEvent& event) override;
   void mouseUp(const MouseEvent& event) override;
   void parentSizeChanged() override;
+  void parentHierarchyChanged() override { parentSizeChanged(); }
 
   // setter
   void setShowValue(bool value) noexcept { valueLabel.setAlpha(value); }
   void setStartPosition(KnobStartPos value) noexcept { startPos = value; }
-  void setInitPosition(const Point<int>& point) noexcept;
   void setUseIndividualColour(bool state, const Colour& colour) noexcept;
   void setSkewFactorFromMidPoint(float midPoint) { range.setSkewForCentre(midPoint); }
 
@@ -74,9 +75,6 @@ private:
   float editStartValue { 0.0f };
   float value { 0.0f };
   ParameterAttachment attachment{ parameter, [&](float newValue) { value = range.convertTo0to1(newValue); repaint(); }, nullptr };
-
-  const float& scale;
-  Point<int> initPosition;
 
   Label titleLabel;
   Label valueLabel;

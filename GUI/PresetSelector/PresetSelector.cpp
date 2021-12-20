@@ -26,7 +26,7 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // PresetSelector implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetSelector::PresetSelector(APVTS* apvts, UserProperties* userProperties) :
+PresetSelector::PresetSelector(APVTS& apvts, UserProperties* userProperties) :
   apvts(apvts),
   userProperties(userProperties)
 {

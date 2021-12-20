@@ -32,7 +32,7 @@ class PresetSelector : public juce::Component
 {
 public:
   // constructor
-  PresetSelector(APVTS* apvts, UserProperties* userProperties);
+  PresetSelector(APVTS& apvts, UserProperties* userProperties);
 
   ~PresetSelector();
 
@@ -47,7 +47,7 @@ private:
   // lookandfeel
   PresetSelectorLaF laf;
 
-  APVTS* apvts;
+  APVTS& apvts;
   UserProperties* userProperties;
   DirectoryList list;
   PresetListButton listButton { apvts, &list };

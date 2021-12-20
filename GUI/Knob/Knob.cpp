@@ -30,9 +30,9 @@ bool Knob::alwaysShowValue { false };
 Colour Knob::staticColour { 132, 106, 192 };
 
 Knob::Knob(APVTS& apvts, const String& parameterID, const float& scale) :
+  ResizeInterface(scale),
   apvts(apvts),
-  parameter(*apvts.getParameter(parameterID)),
-  scale(scale)
+  parameter(*apvts.getParameter(parameterID))
 {
   auto minValue = range.start;
   auto maxValue = range.end;
@@ -177,8 +177,9 @@ void Knob::mouseUp(const MouseEvent& event)
 void Knob::parentSizeChanged()
 {
   // set knob bounds
-  const int x = initPosition.getX() * scale;
-  const int y = initPosition.getY() * scale;
+  const float scale = getScale();
+  const int x = getScaledX();
+  const int y = getScaledY();
   const int w = 100 * scale;
   const int h = 110 * scale;
 
@@ -195,13 +196,6 @@ void Knob::parentSizeChanged()
   // set title label bounds
   titleLabel.setBounds(0, 87.5f * scale, 100 * scale, 20 * scale);
   titleLabel.setFont(16 * scale);
-}
-
-void Knob::setInitPosition(const Point<int>& point) noexcept
-{
-  setBounds(point.getX(), point.getY(), 100 * scale, 110 * scale);
-  initPosition = point;
-  parentSizeChanged();
 }
 
 void Knob::setUseIndividualColour(bool state, const Colour& colour) noexcept

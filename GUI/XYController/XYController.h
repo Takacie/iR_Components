@@ -22,6 +22,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
+#include "../ResizeInterface/ResizeInterface.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 #include "../../Utility/Helper/Helper.h"
@@ -33,11 +34,12 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // XYController class
 //----------------------------------------------------------------------------------------------------------------------
-class XYController : public juce::Component
+class XYController : public juce::Component, public ResizeInterface
 {
 public:
   // constructor
-  XYController(const APVTS& apvts, const StringRef& paramIdX, const StringRef& paramIdY) :
+  XYController(const float& scale, const APVTS& apvts, const StringRef& paramIdX, const StringRef& paramIdY) :
+    ResizeInterface(scale),
     apvts(apvts),
     paramX(*apvts.getParameter(paramIdX)),
     paramY(*apvts.getParameter(paramIdY))
@@ -87,20 +89,30 @@ public:
     attachmentY.endGesture();
   }
 
+  void parentSizeChanged() override
+  {
+    const int w = getScaledWidth();
+    const int h = getScaledHeight();
+
+    setSize(w, h);
+    attachmentX.sendInitialUpdate();
+    attachmentY.sendInitialUpdate();
+  }
+
   // getter
   const APVTS& getAudioProcessorValueTreeState() const noexcept { return apvts; }
 
-  // setter
-  void setControllerRect(const Rectangle<int>& rect) noexcept
-  {
-    controllerRect = rect;
-  }
+  NormalisableRange<float> getRangeX() const noexcept { return rangeX; }
+  NormalisableRange<float> getRangeY() const noexcept { return rangeY; }
+
+  float getValueX() const noexcept { return valueX; }
+  float getValueY() const noexcept { return valueY; }
 
 protected:
   virtual float calcValueParamX() const noexcept
   {
     const float posX = getBounds().getCentre().getX();
-    const float ratioX = posX / controllerRect.getWidth();
+    const float ratioX = posX / getParentWidth();
     const float denormX = rangeX.convertFrom0to1(clamp0To1(ratioX));
 
     return denormX;
@@ -109,7 +121,7 @@ protected:
   virtual float calcValueParamY() const noexcept
   {
     const float posY = getBounds().getCentre().getY();
-    const float ratioY = 1.0f - posY / controllerRect.getHeight();
+    const float ratioY = 1.0f - posY / getParentHeight();
     const float denormY = rangeY.convertFrom0to1(clamp0To1(ratioY));
 
     return denormY;
@@ -119,12 +131,11 @@ protected:
   {
     const float normX = rangeX.convertTo0to1(denormalizedValue);
     const int halfW = getWidth() / 2;
-    const int x = controllerRect.getWidth() * normX - halfW;
-
+    const int x = getParentWidth() * normX - halfW;
 
     #if JUCE_DEBUG
-    jassert(x >= 0);
-    jassert(x <= controllerRect.getWidth());
+    jassert(x >= -halfW);
+    jassert(x <= getParentWidth() + halfW);
     #endif
 
     setTopLeftPosition(x, getY());
@@ -134,11 +145,11 @@ protected:
   {
     const float normY = rangeY.convertTo0to1(denormalizedValue);
     const int halfH = getHeight() / 2;
-    const int y = controllerRect.getHeight() * (1.0f - normY) - halfH;
+    const int y = getParentHeight() * (1.0f - normY) - halfH;
 
     #if JUCE_DEBUG
-    jassert(y >= 0);
-    jassert(y <= controllerRect.getHeight());
+    jassert(y >= -halfH);
+    jassert(y <= getParentHeight() + halfH);
     #endif
 
     setTopLeftPosition(getX(), y);
@@ -147,21 +158,21 @@ protected:
 private:
   // member
   const APVTS& apvts;
-
-  Rectangle<int>& controllerRect {};
-
   RangedAudioParameter& paramX;
   RangedAudioParameter& paramY;
-
   NormalisableRange<float> rangeX { paramX.getNormalisableRange() };
   NormalisableRange<float> rangeY { paramY.getNormalisableRange() };
+  float valueX { 0.0f };
+  float valueY { 0.0f };
 
   ParameterAttachment attachmentX {
     paramX,
-    [&](float denormalizedValue) {
+    [&](float denormalizedValue)
+    {
+      valueX = denormalizedValue;
       if (!isEditing) {
         setXFromValue(denormalizedValue);
-        repaint();
+        getParentComponent()->repaint();
       }
     },
     nullptr
@@ -169,10 +180,12 @@ private:
 
   ParameterAttachment attachmentY {
     paramY,
-    [&](float denormalizedValue) {
+    [&](float denormalizedValue)
+    {
+      valueY = denormalizedValue;
       if (!isEditing) {
         setYFromValue(denormalizedValue);
-        repaint();
+        getParentComponent()->repaint();
       }
     },
     nullptr

@@ -58,7 +58,7 @@ class FileListComponent : public juce::FileListComponent, public juce::FileBrows
 {
 public:
   // constructor
-  FileListComponent(DirectoryContentsList& directoryContentList, APVTS* apvts);
+  FileListComponent(DirectoryContentsList& directoryContentList, APVTS& apvts);
 
   // override
   void selectionChanged() override {}
@@ -72,7 +72,7 @@ public:
 
 private:
   String presetName = "(default)";
-  APVTS* apvts;
+  APVTS& apvts;
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ class PresetMenuButton : public juce::Button
 {
 public:
   // constructor
-  PresetMenuButton(UserProperties* userProperties, APVTS* apvts, DirectoryList* dirList);
+  PresetMenuButton(UserProperties* userProperties, APVTS& apvts, DirectoryList* dirList);
 
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
@@ -94,7 +94,7 @@ public:
 private:
   PopupMenu popupMenu;
   UserProperties* userProperties;
-  APVTS* apvts;
+  APVTS& apvts;
   DirectoryList* dirList;
   std::unique_ptr<FileChooser> fileChooser;
 };
@@ -106,7 +106,7 @@ class PresetListButton : public juce::Button
 {
 public:
   // constructor
-  PresetListButton(APVTS* apvts, DirectoryList* dirList);
+  PresetListButton(APVTS& apvts, DirectoryList* dirList);
 
   // override
   void paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
@@ -119,7 +119,7 @@ public:
   void setPosition(Rectangle<int>& rect) { setBounds(rect); }
 
 private:
-  APVTS* apvts;
+  APVTS& apvts;
   DirectoryList* dirList;
   std::unique_ptr<FileListComponent> fileListComponent
   { std::make_unique<FileListComponent>(*dirList->getDirectoryContentsList(), apvts) };

@@ -22,6 +22,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
+#include "../ResizeInterface/ResizeInterface.h"
 #include "juce_gui_basics/juce_gui_basics.h"
 
 using namespace juce;
@@ -30,7 +31,7 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // GridComponent class
 //----------------------------------------------------------------------------------------------------------------------
-class GridComponent : public juce::Component
+class GridComponent : public juce::Component, public ResizeInterface
 {
 public:
   // enum
@@ -50,7 +51,7 @@ public:
 
   // constructor
   GridComponent(const float& scale)
-    : scale(scale)
+    : ResizeInterface(scale)
   {
     setColour(backgroundColourId, Colour(10, 10, 15));
     setColour(mainViewColourId, Colour(20, 20, 25));
@@ -80,10 +81,10 @@ public:
 
   void parentSizeChanged() override
   {
-    const int x = initRect.getX() * scale;
-    const int y = initRect.getY() * scale;
-    const int w = initRect.getWidth() * scale;
-    const int h = initRect.getHeight() * scale;
+    const int x = getScaledX();
+    const int y = getScaledY();
+    const int w = getScaledWidth();
+    const int h = getScaledHeight();
     const int mainViewX = w * mainViewReduceRatio[1];                                      // width * leftReduceRatio
     const int mainViewY = h * mainViewReduceRatio[0];                                      // height * topReduceRatio
     const int mainViewW = w * (1.0f - (mainViewReduceRatio[1] + mainViewReduceRatio[3]));  // width * (1.0 - (leftReduceRatio + rightReduceRatio))
@@ -99,10 +100,13 @@ public:
     return mainViewRect;
   }
 
-  // setter
-  void setInitRectangle(const Rectangle<int>& newRect) noexcept
+  Rectangle<int> getInitMainViewBounds() noexcept
   {
-    initRect = newRect;
+    const int mainViewX = getInitWidth() * mainViewReduceRatio[1];
+    const int mainViewY = getInitHeight() * mainViewReduceRatio[0];
+    const int mainViewW = getInitWidth() * (1.0f - (mainViewReduceRatio[1] + mainViewReduceRatio[3]));
+    const int mainViewH = getInitHeight() * (1.0f - (mainViewReduceRatio[0] + mainViewReduceRatio[2]));
+    return Rectangle<int>(mainViewX, mainViewY, mainViewW, mainViewH);
   }
 
   void setRange(const Axis axis, const Range<float>& newRange) noexcept
@@ -132,9 +136,6 @@ public:
   }
 
 private:
-  const float& scale;
-  Rectangle<int> initRect;
-
   Rectangle<int> mainViewRect;
   std::array<float, 4> mainViewReduceRatio { 0.03f, 0.075f, 0.075f, 0.03f }; // top, left, bottom, right
 
@@ -158,10 +159,10 @@ private:
     const int bottom = mainViewRect.getBottom();
     const Colour lineColour = findColour(lineColourId);
     const Colour textColour = findColour(textColourId);
-    const Font textFont { 10 * scale };
-    const int textW = 30 * scale;
-    const int textH = 10 * scale;
-    const int textTopOffset = 2.0f * scale;
+    const Font textFont { 10 * getScale()};
+    const int textW = 30 * getScale();
+    const int textH = 10 * getScale();
+    const int textTopOffset = 2.0f * getScale();
 
     g.setFont(textFont);
 
@@ -200,10 +201,10 @@ private:
     const int right = mainViewRect.getRight();
     const Colour lineColour = findColour(lineColourId);
     const Colour textColour = findColour(textColourId);
-    const Font textFont { 10 * scale };
+    const Font textFont { 10 * getScale() };
     const int textH = textFont.getHeight();
     const int textW = mainViewRect.getX() - getLocalBounds().getX();
-    const int textRightOffset = 3.0f * scale;
+    const int textRightOffset = 3.0f * getScale();
 
     g.setFont(textFont);
 

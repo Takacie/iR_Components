@@ -36,7 +36,7 @@ class Header : public juce::Component
 {
 public:
   // constructor
-  Header(juce::AudioProcessorEditor& parent, APVTS* apvts, UserProperties* userProperties) :
+  Header(juce::AudioProcessorEditor& parent, APVTS& apvts, UserProperties* userProperties) :
     apvts(apvts),
     userProperties(userProperties)
   {
@@ -89,7 +89,7 @@ public:
   }
 
 private:
-  APVTS* apvts;
+  APVTS& apvts;
   UserProperties* userProperties;
 
   String title = "Header";

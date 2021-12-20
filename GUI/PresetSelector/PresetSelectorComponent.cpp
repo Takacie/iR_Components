@@ -35,7 +35,7 @@ DirectoryList::DirectoryList()
 //----------------------------------------------------------------------------------------------------------------------
 // FileListComponentWrapper implementation
 //----------------------------------------------------------------------------------------------------------------------
-FileListComponent::FileListComponent(DirectoryContentsList& directoryContentList, APVTS* apvts) :
+FileListComponent::FileListComponent(DirectoryContentsList& directoryContentList, APVTS& apvts) :
   juce::FileListComponent(directoryContentList),
   apvts(apvts)
 {
@@ -54,7 +54,7 @@ void FileListComponent::fileDoubleClicked(const File& file)
     auto presetXml = parseXML(file);
     if (presetXml->hasAttribute("PluginName") && presetXml->getStringAttribute("PluginName") == PROJECT_NAME) {
       auto preset_tree = ValueTree::fromXml(*presetXml);
-      apvts->replaceState(preset_tree);
+      apvts.replaceState(preset_tree);
       presetName = file.getFileNameWithoutExtension();
     }
     else {
@@ -71,7 +71,7 @@ void FileListComponent::inputAttemptWhenModal()
 //----------------------------------------------------------------------------------------------------------------------
 // PresetMenuButton implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetMenuButton::PresetMenuButton(UserProperties* userProperties, APVTS* apvts, DirectoryList* dirList) :
+PresetMenuButton::PresetMenuButton(UserProperties* userProperties, APVTS& apvts, DirectoryList* dirList) :
   Button("PresetMenuButton"),
   userProperties(userProperties),
   apvts(apvts),
@@ -134,7 +134,7 @@ void PresetMenuButton::mouseDown(const MouseEvent& event)
         fileChooser->launchAsync(flag, [&](const FileChooser& chooser) {
           File save_file = chooser.getResult();
           if (save_file.getFullPathName().isNotEmpty()) {
-            std::unique_ptr<XmlElement> presetXml = apvts->copyState().createXml();
+            std::unique_ptr<XmlElement> presetXml = apvts.copyState().createXml();
             presetXml->setAttribute("PluginName", PROJECT_NAME);
             presetXml->writeTo(chooser.getResult());
           }
@@ -162,7 +162,7 @@ void PresetMenuButton::mouseDown(const MouseEvent& event)
 //----------------------------------------------------------------------------------------------------------------------
 // PresetListButton implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetListButton::PresetListButton(APVTS* apvts, DirectoryList* dirList) :
+PresetListButton::PresetListButton(APVTS& apvts, DirectoryList* dirList) :
   Button("PresetListButton"),
   apvts(apvts),
   dirList(dirList)

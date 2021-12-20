@@ -150,7 +150,7 @@ void Knob::mouseDoubleClick(const MouseEvent& event)
 
 void Knob::mouseDown(const MouseEvent& event)
 {
-  isEdit = true;
+  isEditting = true;
   editStartValue = value;
   editStartY = event.getMouseDownY();
   setShowValue(true);
@@ -168,7 +168,7 @@ void Knob::mouseDrag(const MouseEvent& event)
 
 void Knob::mouseUp(const MouseEvent& event)
 {
-  isEdit = false;
+  isEditting = false;
 
   if (!alwaysShowValue)
     setShowValue(false);

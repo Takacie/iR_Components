@@ -22,7 +22,6 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include "KnobLookAndFeel.h"
 #include "../ResizeInterface/ResizeInterface.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 #include "juce_gui_basics/juce_gui_basics.h"
@@ -83,7 +82,7 @@ private:
   bool useIndividualColour { false };
   Colour mainColour { 132, 106, 192 };
 
-  bool isEdit { false };
+  bool isEditting { false };
 };
 
 } // namespace iNVOXRecords::gui

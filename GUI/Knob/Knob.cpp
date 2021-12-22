@@ -204,4 +204,10 @@ void Knob::setUseIndividualColour(bool state, const Colour& colour) noexcept
   mainColour = colour;
 }
 
+void Knob::setSkewFactorFromMidPoint(float midPoint) noexcept
+{
+  range.setSkewForCentre(midPoint);
+  attachment.sendInitialUpdate();
+}
+
 } // namespace iNVOXRecords::gui

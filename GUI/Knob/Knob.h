@@ -58,7 +58,7 @@ public:
   void setShowValue(bool value) noexcept { valueLabel.setAlpha(value); }
   void setStartPosition(KnobStartPos value) noexcept { startPos = value; }
   void setUseIndividualColour(bool state, const Colour& colour) noexcept;
-  void setSkewFactorFromMidPoint(float midPoint) { range.setSkewForCentre(midPoint); }
+  void setSkewFactorFromMidPoint(float midPoint) noexcept;
 
   // static
   static bool alwaysShowValue;

@@ -67,6 +67,11 @@ public:
     initBounds = Rectangle<int>(x, y, width, height);
   }
 
+  void setInitX(int x) { initBounds.setX(x); }
+  void setInitY(int y) { initBounds.setY(y); }
+  void setInitWidth(int width) { initBounds.setWidth(width); }
+  void setInitHeight(int height) { initBounds.setHeight(height); }
+
 private:
   // member
   const float& scale;

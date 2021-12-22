@@ -26,7 +26,8 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // PresetSelector implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetSelector::PresetSelector(APVTS& apvts, UserProperties* userProperties) :
+PresetSelector::PresetSelector(const float& scale, APVTS& apvts, UserProperties* userProperties) :
+  ResizeInterface(scale),
   apvts(apvts),
   userProperties(userProperties)
 {
@@ -44,25 +45,6 @@ PresetSelector::~PresetSelector()
   setLookAndFeel(nullptr);
   listButton.getFileListComponent()->setLookAndFeel(nullptr);
   menuButton.getPopupMenu()->setLookAndFeel(nullptr);
-}
-
-// setter
-void PresetSelector::setPosition(int x, int y, float scale)
-{
-  x *= scale;
-  y *= scale;
-  const auto w = getWidth();       // entire width
-  const auto lbW = w * 0.8f;      // listButton width
-  const auto mbW = w * 0.2f;      // menuButton width
-  const auto h = 30 * scale;       // entire height
-  const auto browH = 150 * scale; // file_browser height
-  const auto rowH = 25 * scale;   // row height
-
-  setBounds(x, y, w, h);
-  listButton.setBounds(0, 0, lbW, h);
-  listButton.getFileListComponent()->setBounds(x, y + h, w, browH);
-  listButton.getFileListComponent()->setRowHeight(rowH);
-  menuButton.setBounds(lbW, 0, mbW, h);
 }
 
 } // namespace iNVOXRecords::gui

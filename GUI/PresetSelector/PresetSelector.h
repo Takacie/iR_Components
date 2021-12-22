@@ -22,22 +22,45 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
+#include "../ResizeInterface/ResizeInterface.h"
 #include "PresetSelectorComponent.h"
 
 namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // PresetSelector class
 //----------------------------------------------------------------------------------------------------------------------
-class PresetSelector : public juce::Component
+class PresetSelector : public juce::Component, public ResizeInterface
 {
 public:
   // constructor
-  PresetSelector(APVTS& apvts, UserProperties* userProperties);
+  PresetSelector(const float& scale, APVTS& apvts, UserProperties* userProperties);
 
   ~PresetSelector();
 
+  // override
+  void parentSizeChanged() override
+  {
+    const float s = getScale();
+    const int x = getScaledX();
+    const int y = getScaledY();
+    const int w = getScaledWidth();       // entire width
+    const int h = getScaledHeight();       // entire height
+    const int lbW = w * 0.8f;      // listButton width
+    const int mbW = w * 0.2f;      // menuButton width
+    //const auto h = 30 * scale;       // entire height
+    const int browH = 150 * s; // file_browser height
+    const int rowH = 25 * s;   // row height
+
+    setBounds(x, y, w, h);
+    listButton.setBounds(0, 0, lbW, h);
+    listButton.getFileListComponent()->setBounds(x, y + h, w, browH);
+    listButton.getFileListComponent()->setRowHeight(rowH);
+    menuButton.setBounds(lbW, 0, mbW, h);
+  }
+
+  void parentHierarchyChanged() override { parentSizeChanged(); }
+
   // setter
-  void setPosition(int x, int y, float scale);
   void setWidth(int newWidth) { setBounds(0, 0, newWidth, 0); }
 
   // getter

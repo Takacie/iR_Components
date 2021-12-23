@@ -38,5 +38,6 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Processor/StereoEnhance/StereoEnhance.h"
 #include "Processor/RMSDetector/RMSDetector.h"
 #include "Processor/Equalizer/EQ_Processor.h"
+#include "Processor/Filter/Filter.h"
 
 #include "Utility/UserProperties/UserProperties.h"

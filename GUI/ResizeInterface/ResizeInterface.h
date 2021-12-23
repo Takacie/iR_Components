@@ -32,8 +32,8 @@ class ResizeInterface
 {
 public:
   // constructor
-  ResizeInterface(const float& scale)
-    : scale(scale)
+  ResizeInterface(const float& scale) :
+    scale(scale)
   {}
 
   // getter

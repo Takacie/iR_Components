@@ -91,10 +91,6 @@ public:
 
   void parentSizeChanged() override
   {
-    const int w = getScaledWidth();
-    const int h = getScaledHeight();
-
-    setSize(w, h);
     attachmentX.sendInitialUpdate();
     attachmentY.sendInitialUpdate();
   }
@@ -136,9 +132,10 @@ protected:
     #if JUCE_DEBUG
     jassert(x >= -halfW);
     jassert(x <= getParentWidth() + halfW);
+    DBG("X: " + String(x));
     #endif
 
-    setTopLeftPosition(x, getY());
+    setBounds(x, getY(), getScaledWidth(), getScaledHeight());
   }
 
   virtual void setYFromValue(float denormalizedValue) noexcept
@@ -150,9 +147,10 @@ protected:
     #if JUCE_DEBUG
     jassert(y >= -halfH);
     jassert(y <= getParentHeight() + halfH);
+    DBG("Y: " + String(y));
     #endif
 
-    setTopLeftPosition(getX(), y);
+    setBounds(getX(), y, getScaledWidth(), getScaledHeight());
   }
 
 private:

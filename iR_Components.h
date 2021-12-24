@@ -31,13 +31,10 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include "GUI/TextEditor/TextEditor.h"
 #include "GUI/GridComponent/GridComponent.h"
 #include "GUI/XYController/XYController.h"
-#include "GUI/Equalizer/Handle/EQ_Handle.h"
-#include "GUI/Equalizer/GraphicController/EQ_GraphicController.h"
 
 #include "Processor/CircularBuffer/CircularBuffer.h"
 #include "Processor/StereoEnhance/StereoEnhance.h"
 #include "Processor/RMSDetector/RMSDetector.h"
-#include "Processor/Equalizer/EQ_Processor.h"
 #include "Processor/Filter/Filter.h"
 
 #include "Utility/UserProperties/UserProperties.h"

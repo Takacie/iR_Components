@@ -24,11 +24,21 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../../Utility/Helper/Helper.h"
 #include "juce_audio_processors/juce_audio_processors.h"
+#include "juce_dsp/juce_dsp.h"
 
 using namespace juce;
 using namespace dsp;
+using namespace iNVOXRecords::utility;
 
 namespace iNVOXRecords::processor {
+// constant
+constexpr float INITIAL_Q = 1.0f / MathConstants<double>::sqrt2;
+constexpr int MAX_ORDER = 8;
+
+// aliase
+using Coeffs = dsp::IIR::Coefficients<float>;
+using Filter = juce::dsp::IIR::Filter<float>;
+
 //----------------------------------------------------------------------------------------------------------------------
 // FilterType enum class
 //----------------------------------------------------------------------------------------------------------------------
@@ -50,11 +60,65 @@ class IIRFilter
 {
 public:
   // constructor
+  IIRFilter(FilterType initType, int initOrder) :
+    type(initType),
+    order(initOrder)
+  {
+    filters2ndOrder.resize(order / 2);
+  }
 
   // common method
-  void prepare() noexcept
+  void prepare(const ProcessSpec& spec) noexcept
   {
+    processSpec = spec;
+    filter1stOrder.prepare(spec);
 
+    for (auto&& filter2ndOrder : filters2ndOrder)
+      filter2ndOrder.prepare(spec);
+  }
+
+  void calcCoeffs()
+  {
+    using CoeffsPtr = ReferenceCountedObjectPtr<Coeffs>;
+
+    const float samplerate = processSpec.sampleRate;
+
+    switch (type) {
+      case FilterType::LowCut:
+        if (order % 2 == 1) {
+          coeffsFor1stOrder = *Coeffs::makeFirstOrderHighPass(samplerate, freq);
+          *filter1stOrder.coefficients = coeffsFor1stOrder;
+        }
+        coeffsFor2ndOrder = *Coeffs::makeHighPass(samplerate, freq, q);
+        break;
+      case FilterType::HighCut:
+        if (order % 2 == 1) {
+          coeffsFor1stOrder = *Coeffs::makeFirstOrderLowPass(samplerate, freq);
+          *filter1stOrder.coefficients = coeffsFor1stOrder;
+        }
+        coeffsFor2ndOrder = *Coeffs::makeLowPass(samplerate, freq, q);
+        break;
+      case FilterType::Peak:
+        coeffsFor2ndOrder = *Coeffs::makePeakFilter(samplerate, freq, q, gain);
+        break;
+      case FilterType::LowShelf:
+        coeffsFor2ndOrder = *Coeffs::makeLowShelf(samplerate, freq, q, gain);
+        break;
+      case FilterType::HighShelf:
+        coeffsFor2ndOrder = *Coeffs::makeHighShelf(samplerate, freq, q, gain);
+        break;
+      case FilterType::BandPass:
+        coeffsFor2ndOrder = *Coeffs::makeBandPass(samplerate, freq, q);
+        break;
+      case FilterType::Notch:
+        coeffsFor2ndOrder = *Coeffs::makeNotch(samplerate, freq, q);
+        break;
+      default:
+        break;
+    }
+
+    for (auto&& filter2ndOrder : filters2ndOrder)
+      *filter2ndOrder.coefficients = coeffsFor2ndOrder;
   }
 
   void process(const AudioBlock<float>& buffer) noexcept
@@ -69,26 +133,53 @@ public:
 
     outputBlock.copyFrom(inputBlock);
 
+    calcCoeffs();
+
     if (numOutChannels == 1)
-      processMono(outputBlock.getChannelPointer(0), static_cast<int>(numSamples));
+      processMono(context);
     else if (numOutChannels == 2)
-      processStereo(outputBlock.getChannelPointer(0), outputBlock.getChannelPointer(1), intCast(numSamples));
-    else
-      processMono(outputBlock.getChannelPointer(0), static_cast<int>(numSamples));
+      processStereo(context);
   }
 
-  void processStereo(float* const left, float* const right, const int numSamples) noexcept
+  void processStereo(ProcessContextReplacing<float> context) noexcept
   {
 
   }
 
-  void processMono(float* const samples, const int numSamples) noexcept
+  void processMono(ProcessContextReplacing<float> context) noexcept
   {
+    if (order % 2 == 1)
+      filter1stOrder.process(context);
 
+    for (auto&& filter2ndOrder : filters2ndOrder)
+      filter2ndOrder.process(context);
+  }
+
+  // setter
+  void setOrder(int newOrder)
+  {
+    order = newOrder;
+    filters2ndOrder.resize(newOrder);
+
+    for (auto&& filter2ndOrder : filters2ndOrder)
+      filter2ndOrder.prepare(processSpec);
   }
 
 private:
   // data member
+  FilterType type;
+  int order;
+  Coeffs coeffsFor1stOrder;
+  Coeffs coeffsFor2ndOrder;
+  Filter filter1stOrder;
+  std::vector<Filter> filters2ndOrder;
+  ProcessSpec processSpec { 0, 0, 0 };
+
+  float freq = 500;
+  float q = INITIAL_Q;
+  float gain = 0.0f;
+
+  // helper
 };
 
 } // namespace iNVOXRecords::processor

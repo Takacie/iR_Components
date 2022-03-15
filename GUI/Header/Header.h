@@ -43,7 +43,7 @@ public:
   };
 
   // constructor
-  Header(const float& scale, juce::AudioProcessorEditor& parent, APVTS& apvts, UserProperties* userProperties) :
+  Header(const double& scale, juce::AudioProcessorEditor& parent, APVTS& apvts, UserProperties* userProperties) :
     ResizeInterface(scale),
     selector(scale, apvts, userProperties)
   {
@@ -60,6 +60,7 @@ public:
   void paint(juce::Graphics& g) override
   {
     auto b = getBounds();
+
     const auto w = getWidth();
     const auto h = getHeight();
     const Colour mainColour = findColour(mainColourId);
@@ -82,6 +83,8 @@ public:
     const float s = getScale();
     const int w = getParentWidth();
     const int h = getScaledHeight();
+
+    DBG(s);
 
     setBounds(0, 0, w, h);
   }

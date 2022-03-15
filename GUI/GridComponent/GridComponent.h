@@ -159,7 +159,7 @@ private:
     const int bottom = mainViewRect.getBottom();
     const Colour lineColour = findColour(lineColourId);
     const Colour textColour = findColour(textColourId);
-    const Font textFont { 10 * getScale()};
+    const Font textFont { 10 * static_cast<float>(getScale()) };
     const int textW = 30 * getScale();
     const int textH = 10 * getScale();
     const int textTopOffset = 2.0f * getScale();
@@ -201,7 +201,7 @@ private:
     const int right = mainViewRect.getRight();
     const Colour lineColour = findColour(lineColourId);
     const Colour textColour = findColour(textColourId);
-    const Font textFont { 10 * getScale() };
+    const Font textFont { 10 * static_cast<float>(getScale()) };
     const int textH = textFont.getHeight();
     const int textW = mainViewRect.getX() - getLocalBounds().getX();
     const int textRightOffset = 3.0f * getScale();

@@ -32,12 +32,12 @@ class ResizeInterface
 {
 public:
   // constructor
-  ResizeInterface(const float& scale) :
+  ResizeInterface(const double& scale) :
     scale(scale)
   {}
 
   // getter
-  const float& getScale() const noexcept { return scale; }
+  const double& getScale() const noexcept { return scale; }
 
   int getInitX() const noexcept { return initBounds.getX(); }
   int getInitY() const noexcept { return initBounds.getY(); }
@@ -74,7 +74,7 @@ public:
 
 private:
   // member
-  const float& scale;
+  const double& scale;
   Rectangle<int> initBounds;
 };
 

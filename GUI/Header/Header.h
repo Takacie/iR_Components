@@ -84,8 +84,6 @@ public:
     const int w = getParentWidth();
     const int h = getScaledHeight();
 
-    DBG(s);
-
     setBounds(0, 0, w, h);
   }
 

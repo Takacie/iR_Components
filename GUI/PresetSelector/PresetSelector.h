@@ -33,7 +33,7 @@ class PresetSelector : public juce::Component, public ResizeInterface
 {
 public:
   // constructor
-  PresetSelector(const float& scale, APVTS& apvts, UserProperties* userProperties);
+  PresetSelector(const double& scale, APVTS& apvts, UserProperties* userProperties);
 
   ~PresetSelector();
 
@@ -51,14 +51,19 @@ public:
     const int browH = 150 * s; // file_browser height
     const int rowH = 25 * s;   // row height
 
-    setBounds(x, y, w, h);
+    setBounds(getScaledBounds());
     listButton.setBounds(0, 0, lbW, h);
     listButton.getFileListComponent()->setBounds(x, y + h, w, browH);
     listButton.getFileListComponent()->setRowHeight(rowH);
     menuButton.setBounds(lbW, 0, mbW, h);
+
+    DBG(getBounds().toString());
   }
 
-  void parentHierarchyChanged() override { parentSizeChanged(); }
+  void parentHierarchyChanged() override
+  {
+    parentSizeChanged();
+  }
 
   // setter
   void setWidth(int newWidth) { setBounds(0, 0, newWidth, 0); }

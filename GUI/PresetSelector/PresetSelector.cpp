@@ -26,7 +26,7 @@ namespace iNVOXRecords::gui {
 //----------------------------------------------------------------------------------------------------------------------
 // PresetSelector implementation
 //----------------------------------------------------------------------------------------------------------------------
-PresetSelector::PresetSelector(const float& scale, APVTS& apvts, UserProperties* userProperties) :
+PresetSelector::PresetSelector(const double& scale, APVTS& apvts, UserProperties* userProperties) :
   ResizeInterface(scale),
   apvts(apvts),
   userProperties(userProperties)

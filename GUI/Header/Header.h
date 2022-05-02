@@ -51,8 +51,6 @@ public:
     parent.addAndMakeVisible(this);
     parent.addChildComponent(selector.getFileListComponent());
 
-    setInitBounds(0, 0, 0, 60);
-
     setColour(mainColourId, Colour(132, 192, 106));
   }
 
@@ -65,7 +63,8 @@ public:
     const auto h = getHeight();
     const Colour mainColour = findColour(mainColourId);
 
-    g.fillAll(Colour(5, 5, 10));
+    g.setColour(Colour(5, 5, 10));
+    g.fillRect(b);
     g.setColour(mainColour);
 
     auto lineW = h * 0.025f;
@@ -80,11 +79,7 @@ public:
 
   void parentSizeChanged() override
   {
-    const float s = getScale();
-    const int w = getParentWidth();
-    const int h = getScaledHeight();
-
-    setBounds(0, 0, w, h);
+    setBounds(getScaledBounds());
   }
 
   void parentHierarchyChanged() override

@@ -36,5 +36,6 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Processor/StereoEnhance/StereoEnhance.h"
 #include "Processor/RMSDetector/RMSDetector.h"
 #include "Processor/Filter/Filter.h"
+#include "Processor/FFT/FFT.h"
 
 #include "Utility/UserProperties/UserProperties.h"
